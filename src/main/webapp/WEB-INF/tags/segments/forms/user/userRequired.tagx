@@ -1,0 +1,34 @@
+
+<jsp:root
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:form="http://www.springframework.org/tags/form"
+	version="2.0"
+>
+
+		<div class="sheptFormEditItem sheptFormEditItemTop sheptClearfix" >
+		<form:label path="user.username">
+			<spring:message code="username" text="User name"/>
+			<span class="sheptRequired">*</span>
+		</form:label>
+		<form:input path="user.username" cssErrorClass="sheptFieldError" />
+		</div>
+
+		<div class="sheptFormEditItem sheptClearfix" >
+		<form:label path="user.firstname">
+			<spring:message code="firstname" text="First name"/>
+			<span class="sheptRequired">*</span>
+		</form:label>
+		<form:input path="user.firstname" cssErrorClass="sheptFieldError" />
+		</div>
+
+		<div class="sheptFormEditItem sheptClearfix" >
+		<form:label path="user.name" >
+			<spring:message code="lastname" text="Name"/>
+			<span class="sheptRequired">*</span>
+		</form:label>
+		<form:input path="user.name" cssErrorClass="sheptFieldError" />
+		</div>
+ 	
+</jsp:root>

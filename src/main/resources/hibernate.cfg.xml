@@ -1,0 +1,23 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+
+<hibernate-configuration>
+	<session-factory name="TeamSchedSessionFactory">
+		<mapping class="org.shept.apps.teamsched.orm.Timesheet" />
+		<mapping class="org.shept.apps.teamsched.orm.Token" />
+		<mapping class="org.shept.apps.teamsched.orm.Issue" />
+		<mapping class="org.shept.apps.teamsched.orm.User" />
+		<mapping class="org.shept.apps.teamsched.orm.Userworkgroup" />
+		<mapping class="org.shept.apps.teamsched.orm.UserworkgroupId" />
+	  	<mapping class="org.shept.apps.teamsched.orm.Userinvitation" /> 
+	  	<mapping class="org.shept.apps.teamsched.orm.UserinvitationId" /> 
+		<mapping class="org.shept.apps.teamsched.orm.Workgroup" /> 
+		<mapping class="org.shept.apps.teamsched.orm.LoginLog" />
+		<mapping class="org.shept.apps.teamsched.orm.UserAgent" />
+		<mapping class="org.shept.apps.teamsched.orm.UserScreen" />
+		<mapping class="org.shept.apps.teamsched.orm.Version" />
+ 		<mapping resource="queries.hbm.xml" />
+	</session-factory>
+</hibernate-configuration>

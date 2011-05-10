@@ -1,0 +1,103 @@
+html * {
+	font-size: small;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+h1 {
+	font-size: 20px;
+	margin: 0 0 15px;
+	width: 300px;  
+	border-bottom: solid medium #E3E6F1;  
+}
+
+
+a { 
+	color: #5D6091; 
+	font-size: large;
+}
+
+a img { 
+	border: 0 none;
+}
+
+.help img {
+	vertical-align: text-bottom;
+}	
+
+
+body {
+	background-image: url(../images/clock.gif);
+	background-repeat: repeat-x;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	text-align:center;
+}
+
+div#main {
+	text-align:left;
+	margin-left: auto;
+	margin-right: auto;
+	min-width: 960px;
+	border: 1px solid #9eb1f7;
+	background-color: #cdd6f6;
+}
+
+div#header {
+   /* display: inline; */
+   background-color: #cdd6f6;
+   border-bottom: 1px solid #9eb1f7;
+   height: 100px;
+   clear: both;
+}
+#header a{
+	text-decoration: none;
+}	
+
+div#content {
+	display: block;
+	font-size: medium;
+	background-color: #edeff5;
+	color: #5d6091;
+	min-height: 400px;
+	padding: 20px 20px 20px 25px;
+	clear: left;
+}
+
+div[id]#content {
+	margin: 20px 20px 20px 20px;
+}
+
+/* Internet Explorer 6 */
+* html div#content {
+    margin: 20px 20px 20px 188px;
+	height: 1%;
+	height: 400px;
+}
+
+div#footer {
+	border-top: 1px solid #9eb1f7;
+	background-color: #cdd6f6;
+	padding: 3px;
+	padding-right: 20px;
+	text-align: right;
+	color: #5d6091;
+}
+
+#footer a {
+	font-weight: bold;
+	font-size: small;
+	color: #5d6091;
+}
+
+#footer a:VISITED {
+	color: #5d6091;
+}
+
+
+/* Headline upper left corner */
+.teamsched {
+	color: #5D6091;
+	font-family: Helvetica;
+	font-size: 80px;
+	font-weight: lighter;
+}

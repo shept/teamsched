@@ -1,0 +1,58 @@
+<jsp:root
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:security="http://www.springframework.org/security/tags"
+	xmlns:spring="http://www.springframework.org/tags"
+	version="2.0"
+>
+	<script
+		type="text/javascript"
+		src="includes/js/coolmenu/coolmenu.js"
+	><!-- jspx problem workaround, comment must be included -->
+	</script>
+
+<div id="coolmenu" >
+	<!--  href="home.shept" -->
+	<a class="${servletPath eq '/home.shept' ? 'naviSel' : 'navi'}" 
+		href="/" onMouseover="showtext('')" onMouseout="hidetext()">
+		<spring:message code="home" />
+	</a>
+	<p class="menuBlankBox">&#160;</p>
+	<a class="${servletPath eq '/enterhours.shept' ? 'naviSel' : 'navi'}" 
+		href="http:enterhours.shept" onMouseover="showtext('')" onMouseout="hidetext()">
+		<spring:message code="title.enterHours" />
+	</a>
+	<a class="${servletPath eq '/reports.shept' ? 'naviSel' : 'navi'}" 
+		href="reports.shept" onMouseover="showtext('')" onMouseout="hidetext()">
+		<spring:message code="title.reports" />
+	</a>
+	<p class="menuHeaderBox"><spring:message code="administration" /></p>
+	<a class="${servletPath eq '/workgroups.shept' ? 'naviSel' : 'navi'}" 
+		href="workgroups.shept" onMouseover="showtext('')" onMouseout="hidetext()">
+		<spring:message code="workgroups" />
+	</a>
+	<a class="${servletPath eq '/users.shept' ? 'naviSel' : 'navi'}" 
+		href="users.shept" onMouseover="showtext('')" onMouseout="hidetext()">
+		<spring:message code="user" />
+	</a>
+	<security:authorize ifAllGranted="ROLE_ADMINISTRATOR" >
+		<p class="menuHeaderBox">Admin</p>
+		<a class="${servletPath eq '/adminLogins.shept' or servletPath eq '/usersAll.shept' ? 'naviSel' : 'navi'}"
+			href="adminLogins.shept" onMouseover="showtext('')" onMouseout="hidetext()">
+			<spring:message code="logins" />
+		</a>
+		<a class="${servletPath eq '/adminUsers.shept' ? 'naviSel' : 'navi'}" 
+			href="adminUsers.shept" onMouseover="showtext('')" onMouseout="hidetext()">
+		<spring:message code="user" />
+		</a>
+		<a class="${servletPath eq '/cleanup.shept' ? 'naviSel' : 'navi'}" 
+			href="cleanup.shept">
+			<spring:message code="cleanup" />
+		</a>
+	</security:authorize>
+	<div id="menuDescription">
+		<!-- display area for javascript coolmenu.js / cannot stay empty / Jasper problem workaround -->
+	</div>
+</div>
+
+</jsp:root>

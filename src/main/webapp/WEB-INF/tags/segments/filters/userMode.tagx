@@ -1,0 +1,52 @@
+
+<jsp:root
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:shept="http://www.shept.org/tags/shept"
+	xmlns:internal="http://www.shept.org/tags/internal"
+	version="2.0"
+>
+
+	<spring:nestedPath path="${commandPath}" >
+	  <div style="padding: 10px; background-color:#E3E6F1; ">
+		<c:set var="doSelectMode" value="this.form['${commandPathId}_submitChain_userModeChain']" />
+		<form:select 
+			path="mode" 	
+			onchange="${doSelectMode}.click()" >
+			<form:options items="${userModeSelections}" />
+		</form:select>&#160;
+		<spring:message var="txtLabel" code="change" />
+		<input
+			type="submit"
+			value="${txtLabel}"
+			name="${commandPath}.submitChain_userModeChain"
+			id="${commandPathId}_submitChain_userModeChain"
+		/>
+
+		<spring:bind path="mode">
+			<c:set var="userSelectMode" value="${status.value}" />
+		</spring:bind>	
+		<c:set var="href" value="/docs/help/inviteUser" />
+		<c:if test="${userSelectMode eq UserAdminSelectionMode.USER_MYSELF}">
+			<c:set var="href" value="/docs/help/userAdmin" />
+		</c:if>
+		<c:if test="${userSelectMode eq UserAdminSelectionMode.USERS_INVITATIONS}">
+			<c:set var="href" value="/docs/help/gettingInvited" />
+		</c:if>
+
+		<div style="margin-left: 25px; float:right;">
+			<a href="${href}" class="help" > 
+				<img src="${images}/32x32/help.png" />
+			</a>
+		</div>
+
+		<div class="sheptClear">
+			<!-- comment for proper rendering -->
+		</div>
+		
+	  </div>
+	</spring:nestedPath>
+
+</jsp:root>

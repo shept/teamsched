@@ -1,0 +1,110 @@
+<jsp:root
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:shept-pager="http://www.shept.org/tags/shept-pager"
+	xmlns:shept-opt="http://www.shept.org/tags/shept-opt"
+	xmlns:shept-core="http://www.shept.org/tags/shept-core"
+	xmlns:app="urn:jsptagdir:/WEB-INF/tags/app"
+	version="2.0"
+>
+
+	<shept-core:table > 
+	  <jsp:attribute name="tabHeader" >
+		<tr class="sheptTableHeader">
+			<th />
+			<th nowrap="nowrap">
+				<shept-pager:sort sortCol="workgroup.name" code="workgroup" />
+			</th>
+			<th nowrap="nowrap">
+				<shept-pager:sort sortCol="userMember.name" code="member" />
+			</th>
+			<th nowrap="nowrap">
+				<shept-pager:sort sortCol="userOwner.name" code="owner" />
+			</th>
+			<th nowrap="nowrap">
+				<shept-pager:sort sortCol="workgroup.datecreated" code="since" />
+			</th>
+			<th />
+			<th />
+			<th />
+		</tr>
+	  </jsp:attribute>
+	  
+	  <jsp:attribute name="tabRow" >
+	  
+	  	<c:set var="editOk" value="${rowObject.workgroup.ownerId eq rowObject.userMember.id}" />
+	  	<c:set var="workgroupOk" value="${rowObject.workgroup.fdel eq 0 and not empty rowObject.workgroup.id}" />
+	  	
+		<tr class="${rowClassDefault}">
+			<td>
+				<shept-opt:iconRow />
+			</td>
+
+			<td>
+				<app:showIconLock disabled="${rowObject.workgroup.fdel ne 0}" />
+				
+				<c:choose>
+					<c:when test="${editOk}">
+					    <shept-opt:blurInput path="workgroup.name" />
+					</c:when>
+					<c:otherwise>
+						<c:out value="${rowObject.workgroup.name}"></c:out>
+					</c:otherwise>
+				</c:choose>
+			</td>
+
+			<td>
+				<app:showIconLock disabled="${rowObject.userMember.bdisabled}" />
+				<c:out value="${rowObject.userMember.name}"></c:out>
+			</td>
+			<td>
+				<app:showIconLock disabled="${rowObject.userOwner.bdisabled}" />
+				<c:out value="${rowObject.userOwner.name}"></c:out>
+			</td>
+			<td >
+				<spring:bind path="workgroup.datecreated">
+					${status.value}
+				</spring:bind>
+			</td>
+			<td>
+				<c:choose>
+					<c:when test="${editOk and workgroupOk}">
+						<shept-opt:chainRow chainName="rootIssues" code="issues" image="16x16/script_go.png" />
+					</c:when>
+					<c:otherwise>
+						<img src="${images}/16x16/blank.png" alt="" />
+					</c:otherwise>
+				</c:choose>
+			</td>
+			<td align="center" >
+				<c:choose>
+					<c:when test="${editOk	and workgroupOk}">
+						<shept-opt:chainRow chainName="users4Workgroup" code="phrase.editWorkgroupMemberships" image="16x16/shield_go.png" />
+					</c:when>
+					<c:otherwise>
+						<img src="${images}/16x16/blank.png" alt="" />
+					</c:otherwise>
+				</c:choose>
+			</td>
+			<td align="center">
+				<c:choose>
+					<c:when test="${editOk and workgroupOk}">
+						<shept-opt:confirmDeleteRow />
+					</c:when>
+					<c:otherwise>
+						<img src="${images}/16x16/blank.png" alt="" />
+					</c:otherwise>
+				</c:choose>
+			</td>
+		</tr>
+	  </jsp:attribute>
+
+	  <jsp:attribute name="tabSubmit" >
+	  	<shept-opt:submission />
+	  </jsp:attribute>
+	</shept-core:table>
+
+</jsp:root>

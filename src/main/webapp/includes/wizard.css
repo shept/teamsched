@@ -1,0 +1,45 @@
+/* Wizard section */
+
+#wizard {
+	width: 100%;
+	list-style-type: none;
+	overflow: hidden;
+}
+
+#wizard ul {
+	float: left;
+	display: inline;
+	list-style-type: none;
+	padding: 0px;
+}
+
+#wizard ul li {
+	display: inline;
+}
+
+#wizard ul li a {
+	float: left;
+	text-decoration: none;
+	font-size: 400%;
+	font-family: Verdana;
+	margin-left: 25px;
+}
+
+#wizard ul li a div {
+	font-size: 50%;
+	font-family: Tahoma;
+	line-height: 15px;
+	float: right;
+}
+
+#wizard ul li small {
+	float: right;
+}
+
+#wizard .dimmed,
+#wizard .dimmed a {
+	color:	#C2BEDD;
+}
+
+/* end-of wizard section */
+

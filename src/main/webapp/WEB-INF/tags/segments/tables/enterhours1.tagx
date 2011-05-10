@@ -1,0 +1,174 @@
+<jsp:root
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:shept-opt="http://www.shept.org/tags/shept-opt"
+	xmlns:shept-core="http://www.shept.org/tags/shept-core"
+	version="2.0"
+>
+	<shept-core:includeJavaScript />
+
+	<link type="text/css" href="./includes/js/jQuery/timeEntry/jquery.timeentry.css" rel="stylesheet" />
+	<script type="text/javascript" src="./includes/js/jQuery/timeEntry/jquery.timeentry.js">
+		<!-- jspx fix comment / Tomcat problem ?  -->
+	</script>
+	
+	<script type="text/javascript" src="./includes/js/time_entry.js">
+			<!-- jspx fix comment / Tomcat problem ?  -->
+	</script>
+
+	<c:set var="_sessionLanguage_" value="${pageContext.response.locale.language}" />
+
+	<spring:message var="txtSelect" code="phrase.pleaseSelect" /> 
+
+	<c:set var="timeWidth" value="7" />
+	<c:if test="${pageContext.response.locale.language eq 'de' }">
+		<c:set var="timeWidth" value="5" />
+	</c:if>
+
+	<link type="text/css" href="./includes/js/jQuery/filament/fg.menu.css" rel="stylesheet" />
+	<script type="text/javascript" src="./includes/js/jQuery/filament/fg.menu.js">
+		<!-- jspx fix comment / Tomcat problem ?  -->
+	</script>
+
+	<script type="text/javascript" src="./includes/js/jQuery/select_multilevel_menu.js">
+		<!-- jspx fix comment / Tomcat problem ?  -->
+	</script>
+
+	<script type="text/javascript">
+
+	$(document).ready(function() {
+		
+		map = asMap(".sheptMultiLevelMenu a");
+
+		var html = $("#myMenu").html();
+
+		$(".sheptMultiLevelMenu").hide();
+
+		// Initialize all row buttons with the name of the currently selected issue
+		$(".myButton").each(function(index) {
+			var rowPathId = "${commandPathId}_" + index;
+			var issueId = $("#" + rowPathId + "_issueId").val();
+			$("#" + rowPathId + "_Button").button({
+				label : map[issueId],
+				icons : {
+					secondary : 'ui-icon-triangle-1-s'
+				}
+			}).menu({
+				content: html,
+				backLink: false,
+				parentId: rowPathId,
+				flyOut: false,
+				maxHeight: 200,
+				select: function(item, options){
+					var selId = $(item).attr("id");
+					if (!isNaN(selId)) {
+						$("#" + options.parentId + "_issueId").val(selId);
+						$("#" + options.parentId + "_Button").button("option", "label", map[selId]);
+					}
+				}
+			});
+		})
+		
+		// adjust size of time entry input
+		$(".timeEntry_wrap").width($(".timeEntry_wrap").width() + 20);
+
+	})
+
+	</script>
+
+	<shept-core:table > 
+	  <jsp:attribute name="tabHeader" >
+		<tr class="sheptTableHeader" >
+			<th />
+			<th nowrap="nowrap" >
+				<spring:message code="from" />
+				<span class="sheptRequired">*</span>
+			</th>
+			<th>
+				<spring:message code="untill" />
+				<span class="sheptRequired">*</span>
+			</th>
+			<th>
+				<spring:message code="workgroup" />
+				<span class="sheptRequired">*</span>
+			</th>
+			<th style="width: 95%">
+				<spring:message code="comment" />
+			</th>
+			<th />
+		</tr>
+	  </jsp:attribute>
+	  
+	  <jsp:attribute name="tabRow" >
+		<tr class="${rowClassDefault}">
+			<td>
+				<shept-opt:iconRow />
+			</td>
+ 			<td>
+ 				<form:input path="timefrom" size="${timeWidth}" id="${rowPathId}_timefrom"
+					cssErrorClass="sheptFieldError" disabled="${isDeleted}"/>
+				<c:choose>
+					<c:when test="${_sessionLanguage_ eq 'de'}" >
+						<script type="text/javascript">makeTimeEntry24('${rowPathId}_timefrom');</script>
+					</c:when>
+					<c:otherwise>
+						<script type="text/javascript">makeTimeEntry12('${rowPathId}_timefrom');</script>
+					</c:otherwise>		
+				</c:choose>
+			</td>
+			<td>
+				<form:input path="timetill" size="${timeWidth}"  id="${rowPathId}_timetill"
+					cssErrorClass="sheptFieldError" disabled="${isDeleted}" />
+				<c:choose>
+					<c:when test="${_sessionLanguage_ eq 'de'}" >
+						<script type="text/javascript">makeTimeEntry24('${rowPathId}_timetill');</script>
+					</c:when>
+					<c:otherwise>
+						<script type="text/javascript">makeTimeEntry12('${rowPathId}_timetill');</script>
+					</c:otherwise>		
+				</c:choose>
+			</td>
+			<form:hidden path="issueId" id="${rowPathId}_issueId" />
+			<td>
+				<!-- ${rowObject.issue.name}  -->
+				<button id="${rowPathId}_Button" class="myButton" >-</button>
+
+				<!--  if the issue is already deleted -->
+				<c:set var="excluded" />
+				<c:if test="${not isTransient}">
+					<c:set var="excluded" value="${issuesExcludedMap[rowObject.issueId]}" />
+					<c:if test="${not empty excluded}">
+						<script type="text/javascript">
+							$("#${rowPathId}_Button").ready(function(){
+								$("#${rowPathId}_Button")
+									.button("option", "label", "${excluded}")								
+									.button("option", "icons", {primary : 'ui-icon-closethick', secondary : 'ui-icon-triangle-1-s'});								
+							})
+						</script>
+					</c:if>				
+				</c:if>
+
+			</td>
+			<td>
+				<form:input path="comment" cssStyle="width: 95%" cssErrorClass="sheptFieldError" readonly="${isDeleted}"/>
+			</td>
+			<td>
+				<shept-opt:confirmDeleteRow />
+			</td>	
+		</tr>
+	  </jsp:attribute>
+
+	  <jsp:attribute name="tabSubmit" >
+	  	<shept-opt:submission />
+
+		<div id="myMenu" >
+			${xmlMenu}
+		</div>
+
+	  </jsp:attribute>
+	</shept-core:table>
+
+</jsp:root>

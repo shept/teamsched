@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<bean id="localeFormatResolver" parent="sheptLocaleFormatResolverTemplate" >
+		<property name="dateTimeLocales" ref="customLocaleDefintions" />
+	</bean>
+	
+	<util:map id="customLocaleDefintions">
+		<entry key="en" value-ref="locale_en" />
+		<entry key="en_US" value-ref="locale_en" />
+		<entry key="de" value-ref="locale_eu" />
+		<entry key="de_DE" value-ref="locale_eu" />	<!-- default if not explicit injected -->
+		<entry key="uk" value-ref="locale_en" />
+		<entry key="it" value-ref="locale_en" />
+		<entry key="fr" value-ref="locale_en" />
+	</util:map>
+	
+	<util:map id="locale_eu">
+		<entry key="TIME_FORMAT_SHORT" value="HH:mm" />
+		<entry key="TIME_FORMAT_LONG" value="HH:mm:ss" />
+		<entry key="DATE_FORMAT_SHORT" value="dd.MM.yy" />
+		<entry key="DATE_FORMAT_LONG" value="dd.MM.yyyy" />
+		<entry key="DATETIME_FORMAT_SHORT" value="dd.MM.yy HH:mm" />
+		<entry key="DATETIME_FORMAT_LONG" value="dd.MM.yy HH:mm:ss" />
+	</util:map>
+	
+	<util:map id="locale_en">
+		<entry key="TIME_FORMAT_SHORT" value="h:mma" />
+		<entry key="TIME_FORMAT_LONG" value="h:mm:ssa" />
+		<entry key="DATE_FORMAT_SHORT" value="M/d/yy" />
+		<entry key="DATE_FORMAT_LONG" value="M/d/yyyy" />
+		<entry key="DATETIME_FORMAT_SHORT" value="M/d/yy h:mma" />
+		<entry key="DATETIME_FORMAT_LONG" value="M/d/yy h:mm:ssa" />
+	</util:map>
+	
+</beans>

@@ -1,0 +1,77 @@
+<jsp:root
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:security="http://www.springframework.org/security/tags"
+	version="2.0"
+>
+
+<form method="post" action="j_spring_security_check">
+	<div id="login" >
+
+	<security:authorize ifNotGranted="ROLE_ANONYMOUS" >
+		<security:authentication property="principal.username" var="authenticatedUserName" />
+	</security:authorize>
+	
+	<c:if test="${not empty authenticatedUserName}">
+		<spring:message var="text" code="loggedin" />
+		${text}&#160;<b>${authenticatedUserName}</b>
+		&#160;&#160;
+		<a href="j_spring_security_logout">
+			<spring:message var="text" code="logout" />
+			<img src="${images}/16x16/logoff.gif" alt="${text}" border="0" title="${text}" /> 
+		</a>
+		&#160;&#160;&#160;&#160;
+	</c:if>
+	<c:if test="${empty authenticatedUserName}">
+		<spring:message var="text" code="user" />
+		${text}:&#160;&#160;
+		<input type="text" name="j_username" size="20" 
+			value="${not empty param.login_error ? SPRING_SECURITY_LAST_USERNAME : ''}" />
+		<spring:message var="text" code="password" />
+		&#160;${text}:&#160;&#160;
+		<input type="password" name="j_password" size="20" />
+		&#160;
+		<span style="color: red">
+		  <c:choose>
+			<c:when test="${param.login_error eq 1}">
+				<spring:message code="login.usernamePassword" />
+			</c:when>
+			<c:when test="${param.login_error eq 2}">
+				<spring:message code="login.confirmWelcomeEmail" />
+			</c:when>
+		  </c:choose>
+		</span>&#160;
+		
+		<spring:message var="text" code="loginDo" />
+		<input type="submit" name="submitLogin" id="submitLogin" value="${text}" />
+		&#160;&#160;|&#160;
+		<a class="${servletPath eq '/registration.shept' ? 'naviSel' : 'navi'}" 
+			href="registration.shept">
+			<spring:message code="registerDo" />
+		</a>
+			
+		<security:authorize ifAnyGranted="ROLE_ANONYMOUS,anonymous">
+			|&#160;
+			<a class="${servletPath eq '/password.shept' ? 'naviSel' : 'navi'}" 
+				href="password.shept">
+					<spring:message code="passwordforgotten" />
+			</a>	
+		</security:authorize>
+	</c:if>
+		
+		|&#160;
+		<a href="?locale=de">
+			<img class="flag" alt="Deutsch" src="${images}/16x16/flags/de.png" />
+		</a>
+
+		&#160;|&#160;
+		<a href="?locale=en">
+			<img class="flag" alt="English" src="${images}/16x16/flags/us.png" />
+		</a>
+		
+	</div>
+</form>
+
+</jsp:root>
+

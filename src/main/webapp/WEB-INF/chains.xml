@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:lang="http://www.springframework.org/schema/lang"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd" >
+
+	<context:annotation-config />
+
+	<!-- usersFiltered sheptChainTemplate -->
+	<bean name="chainFromUsers" parent="sheptChainTemplate" abstract="true">
+		<property name="from" ref="users" />
+	</bean>
+		
+	<bean name="chainFromUser" parent="sheptChainTemplate" abstract="true">
+		<property name="from" ref="userForm" />
+	</bean>
+		
+
+	<util:list id="sheptChains" >
+
+<!-- from usersFiltered / usersInvited-->
+		<bean parent="chainFromUsers" >
+			<property name="to" ref="logins" />
+			<property name="relation" value="loginLogs" />
+			<property name="info">
+				<bean parent="sheptInfoItemTemplate" p:code="info.logins" p:selector="username" />
+			</property>
+		</bean>
+
+		<bean parent="chainFromUsers" >
+			<property name="to" ref="workgroups" />
+			<property name="disabled" value="create" />
+			<property name="info">
+				<bean parent="sheptInfoItemTemplate" p:code="info.workgroups" p:selector="username" />
+			</property>
+		</bean>
+
+		<bean name="ownedWorkgroups" parent="chainFromUsers" >
+			<property name="to" ref="workgroups" />
+			<property name="relation" value="ownedWorkgroups" />
+			<property name="info">
+				<bean parent="sheptInfoItemTemplate" p:code="info.ownedWorkgroups" p:selector="username" />
+			</property>
+		</bean>
+
+		<bean parent="chainFromUsers" >
+			<property name="to" ref="usersInvited" />
+			<property name="relation" value="usersInvited" />
+			<property name="disabled" value="create" />
+			<property name="info">
+				<bean parent="sheptInfoItemTemplate" p:code="info.usersInvited" p:selector="username" />
+			</property>
+		</bean>
+
+		<bean parent="chainFromUsers" >
+			<property name="to" ref="userForm" />
+			<property name="commandFactory">
+					<bean class="org.shept.apps.teamsched.web.controller.factories.UserCommandFactory" />
+			</property>
+			<property name="info">
+				<bean parent="sheptInfoItemTemplate" p:code="phrase.editUserForm" p:selector="username" />
+			</property>
+ 		</bean>
+
+<!-- user form -->
+
+		<bean parent="chainFromUser" >
+			<property name="to" ref="logins" />
+			<property name="relation" value="loginLogs" />
+			<property name="info">
+				<bean parent="sheptInfoItemTemplate" p:code="info.logins" p:selector="username" />
+			</property>
+ 		</bean>
+
+		<bean parent="chainFromUser" >
+			<property name="to" ref="workgroups" />
+			<property name="disabled" value="create" />
+			<property name="info">
+				<bean parent="sheptInfoItemTemplate" p:code="info.workgroups" p:selector="username" />
+			</property>
+ 		</bean>
+
+		<bean name="ownedWorkgroups" parent="chainFromUser" >
+			<property name="to" ref="workgroups" />
+			<property name="relation" value="ownedWorkgroups" />
+			<property name="info">
+				<bean parent="sheptInfoItemTemplate" p:code="info.ownedWorkgroups" p:selector="username" />
+			</property>
+ 		</bean>
+
+		<bean parent="chainFromUser" >
+			<property name="to" ref="usersInvited" />
+			<property name="relation" value="usersInvited" />
+			<property name="disabled" value="create" />
+			<property name="info">
+				<bean parent="sheptInfoItemTemplate" p:code="info.usersInvited" p:selector="username" />
+			</property>
+ 		</bean>
+
+
+<!-- User invite -->
+
+		<bean parent="sheptChainTemplate" >
+			<property name="from" ref="userInvite" />
+			<property name="to" ref="userForm" />
+			<property name="commandFactory">
+					<bean class="org.shept.apps.teamsched.web.controller.factories.UserCommandFactory" />
+			</property>
+			<property name="info">
+				<bean parent="sheptInfoItemTemplate" p:code="phrase.editUserForm" p:selector="username" />
+			</property>
+ 		</bean>
+
+<!-- User mode -->
+
+
+		<bean name="userModeChain" parent="sheptChainTemplate" >
+			<property name="from" ref="userMode" />
+			<property name="to" ref="userInvitations" />
+				<property name="commandFactory">
+					<bean class="org.shept.apps.teamsched.web.controller.factories.UserModeCommandFactory" />
+				</property>
+		</bean>
+
+<!-- workgroups -->
+
+		<bean parent="sheptChainTemplate" >
+			<property name="from" ref="workgroups" />
+			<property name="to" ref="usersInvited" />
+			<property name="relation" value="users" />
+			<property name="disabled" value="create" />
+			<property name="info">
+				<bean parent="sheptInfoItemTemplate" p:code="info.usersWorkgroup" p:selector="name" />
+			</property>
+ 		</bean>
+ 		
+		<bean parent="sheptChainTemplate" >
+			<property name="from" ref="workgroups" />
+			<property name="to" ref="userForm" />
+			<property name="relation" value="owner" />
+			<property name="info">
+				<bean parent="sheptInfoItemTemplate" p:code="info.ownerWorkgroup" p:selector="name" />
+			</property>
+ 		</bean>
+
+		<bean parent="sheptChainTemplate" >
+			<property name="from" ref="workgroups" />
+			<property name="to" ref="issues" />
+			<property name="relation" value="rootIssues" />
+			<property name="info">
+				<bean parent="sheptInfoItemTemplate" p:code="info.rootIssues" p:selector="name" />
+			</property>
+ 		</bean>
+ 		
+		<bean parent="sheptChainTemplate" >
+			<property name="from" ref="workgroups" />
+			<property name="to" ref="users4Workgroup" />
+			<property name="info">
+				<bean parent="sheptInfoItemTemplate" p:code="info.users4Workgroup" p:selector="name" />
+			</property>
+ 		</bean>
+
+<!--  -->
+ 		
+		<bean parent="sheptChainTemplate" >
+			<property name="from" ref="logins" />
+			<property name="to" ref="userForm" />
+			<property name="commandFactory">
+					<bean class="org.shept.apps.teamsched.web.controller.factories.UserCommandFactory" >
+						<property name="relation" value="user" />
+					</bean>
+			</property>
+			<property name="info">
+				<bean parent="sheptInfoItemTemplate" p:code="phrase.editUserForm" p:selector="username" />
+			</property>
+ 		</bean>
+
+<!--  -->
+ 		
+		<bean parent="sheptChainTemplate" >
+			<property name="from" ref="issues" />
+			<property name="to" ref="issues" />
+			<property name="relation" value="childIssues" />
+			<property name="info">
+				<bean parent="sheptInfoItemTemplate" p:code="info.childIssues" p:selector="name" />
+			</property>
+ 		</bean>
+ 		
+		<bean parent="sheptChainTemplate" >
+			<property name="from" ref="userInvitations" />
+			<property name="to" ref="workgroups4User" />
+			<property name="info">
+				<bean parent="sheptInfoItemTemplate" p:code="info.workgroups4User" p:selector="username" />
+			</property>
+ 		</bean>
+ 		
+ 		
+ 		
+
+	</util:list>
+		
+</beans>

@@ -1,0 +1,31 @@
+
+<jsp:root
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:pager="http://www.shept.org/tags/pager"
+	version="2.0"
+>
+
+	<c:choose>
+		<c:when test="${empty subCommand.user.id}">
+			<spring:message var="txtLabel" code="phrase.userCreation" />
+			<img src="${images}/16x16/bullet_star.png" alt="${txtLabel}" title="${txtLabel}" />
+		</c:when>
+		<c:when test="${subCommand.user.fdel ne 0}">
+			<spring:message var="txtLabel" code="phrase.userDeleted" />
+			<img src="${images}/16x16/cross.png" alt="${txtLabel}" title="${txtLabel}" />
+		</c:when>
+		<c:when test="${not subCommand.user.bactive}">
+			<spring:message var="txtLabel" code="phrase.userInactive" />
+			<img src="${images}/16x16/lock.png" alt="${txtLabel}" title="${txtLabel}" />
+		</c:when>
+		<c:otherwise>
+			<spring:message var="txtLabel" code="phrase.userEdit" />
+			<img src="${images}/16x16/application_form_edit.png" alt="${txtLabel}" title="${txtLabel}" />
+		</c:otherwise>
+	</c:choose>
+	${txtLabel}	
+
+</jsp:root>

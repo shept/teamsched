@@ -1,0 +1,21 @@
+<html 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+>
+
+	<c:if test="${empty isJQueryIncluded}">
+		<c:set var="isJQueryIncluded" value="true" scope="request"/>
+		<link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/themes/cupertino/jquery-ui.css" rel="stylesheet" />
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js">
+			<!-- jspx fix comment / Tomcat problem ?  -->
+		</script>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/jquery-ui.js">
+			<!-- jspx fix comment / Tomcat problem ?  -->
+		</script>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/i18n/jquery-ui-i18n.min.js">
+			<!-- jspx fix comment / Tomcat problem ?  -->
+		</script>
+	</c:if>
+</html>

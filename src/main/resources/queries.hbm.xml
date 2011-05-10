@@ -1,0 +1,321 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<!-- Additional mapping for queries in HQL -->
+
+<hibernate-mapping package="org.shept.apps.teamsched.orm">
+
+	<!-- query returning all leafs from Issue (issues that don't have a child) -->
+	<sql-query name="qryLeafIssues">
+		<return alias="issue" class="org.shept.apps.teamsched.orm.Issue" />
+		select * from issue where id not in (select issue_id from issue
+		where issue_id is not null) order by name;
+	</sql-query>
+
+	<query name="qryLoginLog">
+		from LoginLog log 
+		where log.sessionId = :sessionId 
+	</query>
+
+	<query name="qryUserAgent">
+		from UserAgent agent 
+		where agent.userAgent = :userAgent 
+	</query>
+
+	<query name="qryAllUserAgents">
+		from UserAgent agent order by agent.name
+	</query>
+
+	<query name="qryUserScreen">
+		from UserScreen screen 
+		where screen.screenResolution = :resolution 
+	</query>
+
+	<query name="qryIssuesById">
+		from Issue iss 
+		where iss.issueId = :issId and iss.fdel = 0 
+		order by iss.name	
+	</query>
+
+	<query name="qryRootIssuesByWorkgroupId">
+		from Issue iss 
+		where iss.workgroupId = :wgId and iss.level = 0 and iss.fdel = 0
+		order by iss.name
+	</query>
+
+	<query name="qryTimesheetPeriod">
+		from Timesheet ts 
+		where ts.datetimefrom &gt;= :datFrom and ts.datetimefrom &lt; :datTill
+ 		and user.id = :usrId
+ 		order by ts.datetimefrom
+	</query>
+
+ 
+	<query name="qryWorkgroupsWithOwnerAndMembersByOwnerAll">
+		select new org.shept.apps.teamsched.orm.view.SelectWorkgroupWithOwnerAndMembers
+		 (usrMem, wg, usrOwn)
+		from Userworkgroup uwg, Workgroup wrkg 
+			inner join uwg.user as usrMem 
+			left outer join uwg.workgroup as wg 
+			left outer join wrkg.owner as usrOwn
+		where wg = wrkg and usrOwn.id = :userId
+		order by wg.name, usrMem.name
+	</query>
+
+	<query name="qryWorkgroupsWithOwnerAndMembersByOwner">
+		select new org.shept.apps.teamsched.orm.view.SelectWorkgroupWithOwnerAndMembers
+		 (wg.owner, wg, wg.owner)
+		from Workgroup wg 
+		where wg.owner.id = :userId
+		order by wg.name
+	</query>
+
+	<query name="qryWorkgroupsWithOwnerAndMembersByMember">
+		select new org.shept.apps.teamsched.orm.view.SelectWorkgroupWithOwnerAndMembers
+		 (usrMem, wg, usrOwn)
+		FROM Userworkgroup uwg, Workgroup wrkg 
+			inner join uwg.user as usrMem 
+			left outer join uwg.workgroup as wg 
+			left outer join wrkg.owner as usrOwn
+		where wg = wrkg and usrMem.id = :userId
+		order by wg.name, usrOwn.name
+	</query>
+
+	<query name="qryWorkgroupsWithOwnerAndMembersByMemberInvited">
+		select new org.shept.apps.teamsched.orm.view.SelectWorkgroupWithOwnerAndMembers
+		 (usrMem, wg, usrOwn)
+		FROM Userworkgroup uwg, Workgroup wrkg 
+			inner join uwg.user as usrMem 
+			left outer join uwg.workgroup as wg 
+			left outer join wrkg.owner as usrOwn
+		where wg = wrkg and usrOwn != usrMem and usrMem.id = :userId 
+			and uwg.workgroup.ownerId in (
+					select id.userhostId from Userinvitation 
+					where baccepted = true and id.userinvitedId = :userId )
+		order by wg.name, usrOwn.name
+	</query>
+ 	
+	<!-- Return all workgroups valid owned by current user and those where currentUser
+	is invited AND has accepted the invitation AND the host is not deleted or deactivated -->
+	<query name="qryWorkgroups">
+		select uwg.workgroup as wg from Userworkgroup uwg
+		where uwg.user_id = :currentUserId
+			and uwg.workgroup.fdel = 0
+			and ( 
+				uwg.workgroup.ownerId = :currentUserId 
+	 			or uwg.workgroup.ownerId in (
+					select id.userhostId from Userinvitation 
+					where baccepted = true and id.userinvitedId = :currentUserId )
+			)
+		order by uwg.workgroup.name	
+	</query>
+	
+	<!-- Return all workgroups (even deleted - for report selection)
+	owned by current user and those where currentUser
+	is invited AND has accepted the invitation AND the host is not deleted or deactivated -->
+	<query name="qryWorkgroups4Report">
+		select uwg.workgroup as wg from Userworkgroup uwg
+		where uwg.user_id = :currentUserId
+			and ( 
+				uwg.workgroup.ownerId = :currentUserId 
+	 			or uwg.workgroup.ownerId in (
+					select id.userhostId from Userinvitation 
+					where id.userinvitedId = :currentUserId )
+			)
+		order by uwg.workgroup.name	
+	</query>
+	
+	
+	<!-- Answer the number of workgroups per invited user  -->
+	<query name="qryWorkgroupCountForInvitationByHost">
+ 		select new org.shept.apps.teamsched.orm.view.CountObject(uinv.userInvited.id, count(*)) 
+		from Userworkgroup uwg, Userinvitation uinv
+		where uinv.id.userhostId = :userHostId
+			and uinv.userInvited = uwg.user
+ 			and uwg.workgroup.owner = uinv.userHost
+		group by uinv.userInvited
+ 	</query>
+
+	<!-- Answer the number of workgroups where others have invited us -->
+	<query name="qryWorkgroupCountForInvitationByInvitation">
+		select new org.shept.apps.teamsched.orm.view.CountObject(uinv.userHost.id, count(*))
+		from Userworkgroup uwg, Userinvitation uinv
+		where uinv.id.userinvitedId = :userHostId
+ 			and uinv.userInvited = uwg.user
+ 			and uwg.workgroup.owner = uinv.userHost
+ 		group by uinv.userHost.id
+ 	</query>
+ 
+	<query name="qryUserIssues" >
+		select iss from Issue iss, Workgroup wg, Userworkgroup uwg where
+		iss.workgroupId = wg.id and wg.id = uwg.workgroup and
+		uwg.user.id = :userId and iss.fdel = 0 and wg.fdel = 0
+		order by iss.level, iss.name
+	</query>
+	
+	<!-- return all issues that are forbidden for the given user to select again.
+	these may have been selected in the past but either the issue is disabled
+	somewhere in the hierarchy or the workgroup is not owned or invitation
+	was not yet accepted -->
+	<query name="qryIssuesExcluded" >
+		select iss
+		from org.shept.apps.teamsched.orm.Issue iss
+			left outer join iss.parentIssue as p1
+			left outer join iss.parentIssue.parentIssue as p2
+		where (
+			iss.fdel != 0 or p1.fdel != 0 or p2.fdel != 0
+			or iss.workgroup.fdel != 0)
+		or iss.workgroup.ownerId in (
+			select id.userhostId from Userinvitation 
+			where (
+				baccepted != true 
+				or userHost.fdel != 0 
+				or userHost.bactive = false) 
+			and id.userinvitedId = :userId )
+	</query>
+
+	<query name="qryUserByWorkgroup">
+		select usr from User usr, Userworkgroup uwg where
+		usr.id = uwg.user.id and uwg.workgroup.id = :wgId
+		order by usr.name
+	</query>
+
+	<query name="qryUsersInvited">
+		select uinv.userInvited as User
+		from Userinvitation uinv where
+		uinv.id.userhostId = :userhostId
+		order by uinv.userInvited.username
+	</query>
+	
+
+	<!-- Sadly it seems impossible to bundle both return values (User, Userinvited)
+	in another view object, because then only the IDs are filled, the rest will be
+	lazy loaded which results in the n+1 select problem -->
+	<query name="qryUserByHost">
+		select usr as User, uinv as userInvited
+		from User usr, Userinvitation uinv where
+		usr.id = uinv.id.userinvitedId and uinv.id.userhostId = :userhostId
+		order by usr.name
+	</query>
+	
+	<!-- Sadly it seems impossible to bundle both return values (User, Userinvited)
+	in another view object, because then only the IDs are filled, the rest will be
+	lazy loaded which results in the n+1 select problem -->
+	<query name="qryUserByInvitations">
+		select usr as User, uinv as userInvited
+		from User usr, Userinvitation uinv where
+  		usr.id = uinv.id.userhostId and uinv.id.userinvitedId = :userInvitedId  
+ 		order by usr.name  
+	</query>
+
+	<query name="qryUserByUsername">
+		from User usr where usr.fdel = 0 and usr.username = :name
+	</query>
+
+	<query name="qryUserByUsernameAndEmail">
+		from User usr where usr.fdel = 0 and usr.username = :name and lower(usr.email) = lower(:email)
+	</query>
+
+	<query name="qryUserByNameParm">
+		from User usr where usr.fdel = 0 and (
+			usr.username = :name or usr.name = :name or usr.company = :name or lower(usr.email) = lower(:name))
+		order by usr.name
+	</query>
+	
+	<query name="qryUsernameCount">
+		select count (*) as cnt from User usr where usr.username = :name and usr.fdel = 0
+	</query>
+
+	<query name="qryEmailCount">
+		select count (*) as cnt from User usr where lower(usr.email) = lower(:email) and usr.fdel = 0
+	</query>
+
+	<query name="qryUserByEmail">
+		from User usr where lower(usr.email) = lower(:email) and usr.bactive = true and usr.fdel = 0
+	</query>
+
+
+
+	<!-- Cross join all invited users with all the workgroups they might possibly have
+		and put a selection mark if they actually have that workgroup.
+		The selection mark is doubled (Selection, Selected) so we can manipulate one
+		with a checkbox and still compare with the original state when saving changes.
+		Query parms are the hosting user (logged user) and the invited user -->
+	<query name="qryUserAndWorkgroupsByHostAndUser">
+		select new org.shept.apps.teamsched.orm.view.SelectWorkgroupUserRow (
+			wg, uinv.userInvited, 
+			case when (
+				select count(*) from Userworkgroup uwg 
+				where uwg.workgroup = wg and uwg.id.userId = uinv.id.userinvitedId) = 0
+			then false else true end
+			 )
+		from Workgroup wg, Userinvitation uinv
+		where wg.ownerId = :userhostId 
+			and uinv.id.userhostId = :userhostId 
+			and uinv.userInvited.id = :userinvId
+		order by wg.name
+	</query>
+	
+	<!-- Cross join all invited users with all the workgroups they might possibly have
+		and put a selection mark if they actually have that workgroup.
+		The selection mark is doubled (Selection, Selected) so we can manipulate one
+		with a checkbox and still compare with the original state when saving changes. 
+		Query parms are the hosting user (logged user) and the selected workgroup -->
+	<query name="qryUserAndWorkgroupsByHostAndWorkgroup">
+		select new org.shept.apps.teamsched.orm.view.SelectWorkgroupUserRow (
+			wg, uinv.userInvited, 
+			case when (
+				select count(*) from Userworkgroup uwg 
+				where uwg.workgroup = wg and uwg.id.userId = uinv.id.userinvitedId) = 0
+			then false else true end
+			 )
+		from Workgroup wg, Userinvitation uinv
+		where wg.ownerId = :userhostId 
+			and uinv.id.userhostId = :userhostId 
+			and wg.id = :wgId
+		order by uinv.userInvited.name
+	</query>
+	
+	<!-- select all Userworkgroups by host user and guest user -->
+	<query name="qryUserWorkgroupsByHostAndUser">
+		select uwg from Userworkgroup uwg, Userinvitation uinv
+			where uwg.workgroup.owner.id = :userHostId
+			and uinv.userInvited = uwg.user
+			and uinv.userInvited.id = :userInvitedId
+			and uinv.userHost.id = :userHostId
+	</query>
+	
+	<query name="qryTimesheetReport">
+		select new org.shept.apps.teamsched.orm.view.TimesheetReportRow(
+			ts.id, ts.user.id, ts.datetimefrom, ts.datetimetill, 
+			issSel.workgroup.name, issSel.name, issSel1.name, 
+			issSel2.name, ts.comment) 
+		from Timesheet ts
+  			inner join ts.issue as issSel
+  			left outer join issSel.parentIssue as issSel1
+  			left outer join issSel1.parentIssue as issSel2
+		where ts.user.id = :userId and ts.datetimefrom &gt; :dateFrom and ts.datetimetill &lt; :dateTill
+		order by ts.datetimefrom 
+	</query>
+	
+	<query name="qryTimesheetReportOneWorkgroup">
+		select new org.shept.apps.teamsched.orm.view.TimesheetReportRow(
+			ts.id, ts.user.id, ts.datetimefrom, ts.datetimetill, 
+			issSel.workgroup.name, issSel.name, issSel1.name, 
+			issSel2.name, ts.comment) 
+		from Timesheet ts
+  			inner join ts.issue as issSel
+  			left outer join issSel.parentIssue as issSel1
+  			left outer join issSel1.parentIssue as issSel2
+		where ts.user.id = :userId and ts.datetimefrom &gt; :dateFrom and ts.datetimetill &lt; :dateTill and issSel.workgroup.id = :workgroupId
+		order by ts.datetimefrom 
+	</query>
+	
+	<query name="qryLastToken">
+		select token from Token as token 
+		where user.id = :userId and actionId = :actionId 
+		order by datecreated desc
+	</query>
+
+</hibernate-mapping>

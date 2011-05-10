@@ -1,0 +1,150 @@
+
+<jsp:root
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:shept-core="http://www.shept.org/tags/shept-core"
+	version="2.0"
+>
+
+	<shept-core:includeJavaScript />
+
+	<!--  Response in new windows -->
+	<script type="text/javascript">
+	$().ready(function() {
+		var mainForm = document.forms["main"];
+		mainForm.setAttribute("target","_blank");
+	})
+	</script>
+
+  	<c:set var="loc" value="${pageContext.response.locale.language}" />
+	<c:if test="${loc eq 'en'}" >
+		<c:set var="loc" value="" />
+	</c:if>
+
+	<shept-core:form>
+	
+	  <div style="background-color: #E3E6F1; padding: 15px;" >
+
+		<table>
+			<tr>
+			  <spring:message var="txtLabel" code="phrase.pleaseSelect" />
+			  <td>
+				<form:label path="dateFrom" for="${commandPathId}_date-fieldFrom" >
+					<spring:message code="from" /> &#160;
+				</form:label>
+				<form:input
+					path="dateFrom"
+					id="${commandPathId}_date-fieldFrom"
+					size="7"
+					cssErrorClass="sheptFieldError"
+				/> 
+   				<script>
+					$(function() {
+						$.datepicker.setDefaults( $.datepicker.regional["${loc}"]);
+						$("#${commandPathId}_date-fieldFrom").datepicker({
+							changeYear: true,
+							showWeek: true,
+							numberOfMonths: 3,
+							showButtonPanel: true,
+							buttonImage: "${images}/16x16/date.png",
+							showOn: "both",
+							buttonImageOnly: true
+						});
+					});
+				</script>
+          	  </td>
+
+			  <td>
+				  <form:label path="dateTill" for="${commandPathId}_date-fieldTill">
+					<spring:message code="untill" /> &#160;
+				  </form:label>
+				  <form:input
+					path="dateTill"
+					id="${commandPathId}_date-fieldTill"
+					size="7"
+					cssErrorClass="sheptFieldError"
+				/> 
+   				<script>
+					$(function() {
+						$.datepicker.setDefaults( $.datepicker.regional["${loc}"]);
+						$("#${commandPathId}_date-fieldTill").datepicker({
+							changeYear: true,
+							showWeek: true,
+							numberOfMonths: 3,
+							showButtonPanel: true,
+							buttonImage: "${images}/16x16/date.png",
+							showOn: "both",
+							buttonImageOnly: true
+						});
+					});
+				</script>
+           	  </td>
+			</tr>
+			<tr>
+				<td>
+				  <form:label path="workgroupId">
+					<spring:message code="workgroup" />
+				  </form:label>
+				</td>
+				<td>
+					<spring:message var="txtLabel" code="label.allWorkgroups" />
+					<form:select path="workgroupId">
+						<form:option
+							label="${txtLabel}" value=""
+						/>
+						<form:options
+							items="${workgroups}" itemLabel="name" itemValue="id"
+						/>
+					</form:select>
+				</td>
+			
+			</tr>
+			<tr>
+				<td>
+				  <form:label path="userId">
+					<spring:message code="user" />
+				  </form:label>
+				</td>
+				<td>
+					<spring:message var="txtLabel" code="label.loggedInUser" />
+					<form:select path="userId">
+						<form:option
+							label="${txtLabel}" value=""
+						/>
+						<form:options
+							items="${users}" itemLabel="username" itemValue="id"
+						/>
+					</form:select>
+				</td>
+			
+			</tr>
+		</table>
+
+		<div style="float: left; padding-top: 15px; padding-left: 20px" >
+			<spring:message var="txtLabel" code="report" />
+ 			<input
+				type="image"
+				src="${images}/filter/magnifier.png"
+				title="${txtLabel}"
+				name="${commandPath}.submitReport_dummy"
+				accesskey="r"
+			/>
+		</div>
+
+
+		<div style="float: right; padding-top: 15px;">
+			<a href="/docs/help/dataEntry" class="help" > 
+				<img src="${images}/32x32/help.png" />
+			</a>
+		</div>
+		
+  		<div class="sheptClear">
+  			<!-- comment for proper rendering -->
+  		</div>
+  		
+  	  </div>
+  	</shept-core:form>
+  		
+</jsp:root>

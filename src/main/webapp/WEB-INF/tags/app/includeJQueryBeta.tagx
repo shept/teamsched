@@ -1,0 +1,32 @@
+<html 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+>
+
+	<c:if test="${empty isJQueryIncluded}">
+		<c:set var="isJQueryIncluded" value="true" scope="request"/>
+
+		<link type="text/css" href="./includes/js/jQuery/Beta-1.9M4/jquery-ui.css" rel="stylesheet" />
+		<link type="text/css" href="./includes/js/jQuery/Beta-1.9M4/jquery-ui-menu.css" rel="stylesheet" />
+
+		<script type="text/javascript" src="./includes/js/jQuery/Beta-1.9M4/jquery-1.5.2.js">
+			<!-- jspx fix comment / Tomcat problem ?  -->
+		</script>
+		<script type="text/javascript" src="./includes/js/jQuery/Beta-1.9M4/jquery-ui.js">
+			<!-- jspx fix comment / Tomcat problem ?  -->
+		</script>
+		<script type="text/javascript" src="./includes/js/jQuery/Beta-1.9M4/jquery-ui-i18n.js">
+			<!-- jspx fix comment / Tomcat problem ?  -->
+		</script>
+		<!-- include jQuery menu beta which was not part of the beta 1.9M4 why ???
+			copy directly from http://view.jqueryui.com/master/ui/jquery.ui.menu.js
+			If we leave this include the the version 1.9M4 menu is used which doesn't support flyouts
+		-->
+		<script type="text/javascript" src="./includes/js/jQuery/Beta-1.9M4/jquery-menu.js">
+			<!-- jspx fix comment / Tomcat problem ?  -->
+		</script>
+	</c:if>
+
+</html>

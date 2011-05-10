@@ -1,0 +1,187 @@
+<jsp:root
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:shept-pager="http://www.shept.org/tags/shept-pager"
+	xmlns:shept-opt="http://www.shept.org/tags/shept-opt"
+	xmlns:shept-core="http://www.shept.org/tags/shept-core"
+	xmlns:app="urn:jsptagdir:/WEB-INF/tags/app"
+	version="2.0"
+>
+
+	<spring:bind path="${commandRoot}[${childIndex-1}].command.mode">
+		<c:set var="userSelectMode" value="${status.value}" />
+	</spring:bind>	
+
+
+	<shept-core:table > 
+	  <jsp:attribute name="tabHeader" >
+		<tr class="sheptTableHeader" >
+			<th />
+			<th nowrap="nowrap" >
+				<shept-pager:sort sortCol="[0].name" code="name" />	
+			</th>
+			<th>
+				<shept-pager:sort sortCol="[0].firstname" code="firstname" />
+			</th>
+			<th nowrap="nowrap">
+				<shept-pager:sort sortCol="[0].username" code="username" />
+			</th>
+			<th nowrap="nowrap">
+				<shept-pager:sort sortCol="[0].email" code="email" />
+			</th>
+			<th nowrap="nowrap">
+				<shept-pager:sort sortCol="[0].company" code="company" />			
+			</th>
+			<th nowrap="nowrap">
+				<shept-pager:sort sortCol="[0].age" code="age" />			
+			</th>
+			<th nowrap="nowrap">
+				<shept-pager:sort sortCol="[0].zip" code="zip" />			
+			</th>
+			<th nowrap="nowrap">
+				<shept-pager:sort sortCol="[0].city" code="city" />			
+			</th>
+			<th nowrap="nowrap">
+				<shept-pager:sort sortCol="[1].datetimeInvitation.time" code="since" />			
+			</th>
+			<th nowrap="nowrap">
+				<shept-pager:sort sortCol="[1].datetimeResponse.time" title="?" />			
+			</th> 
+			<c:if test="${userSelectMode eq UserAdminSelectionMode.USERS_INVITATIONS}">
+				<th>&#160;</th>
+			</c:if>
+			<th>
+				<spring:message var="txtLabel" code="groups" />
+				<img src="${images}/16x16/folder.png" alt="${txtLabel}" title="${txtLabel}" />
+			</th>
+			<c:if test="${userSelectMode eq UserAdminSelectionMode.USERS_HOSTED}">
+				<th>&#160;</th>
+				<th>&#160;</th>
+			</c:if>
+		</tr>
+	  </jsp:attribute>
+	  
+	  <jsp:attribute name="tabRow" >
+		<c:set var="user" value="${rowObject[0]}" />
+		<c:set var="userInvitation" value="${rowObject[1]}" />
+		<tr class="${rowClassDefault}">
+			<td>
+				<app:showIconLock disabled="${not user.bactive}" />
+			</td>
+			<td>${user.name}</td>
+			<td>${user.firstname}</td>
+			<td>${user.username}</td>
+			<td>${user.emailHidden}</td>
+			<td>${user.company}</td>
+			<td>${user.age}</td>
+			<td>${user.zip}</td>
+			<td>${user.city}</td>
+
+			<td>
+				<spring:bind path="${commandName}.${rowPath}[1].datetimeInvitation" ignoreNestedPath="true" >
+					<c:out value="${status.value}" />
+				</spring:bind>
+							
+						<!-- this way without spring-based formatting
+							<fmt:formatDate value="${userInvitation.datetimeInvitation.time}" type="date" dateStyle="short" />
+						 -->
+			</td>
+			<td>
+				<spring:bind path="${commandName}.${rowPath}[1].datetimeResponse" ignoreNestedPath="true" >
+					<c:out value="${status.value}" />
+				</spring:bind>
+				<!-- 
+					<fmt:formatDate value="${userInvitation.datetimeResponse.time}" type="date" dateStyle="short" />
+				-->
+				<spring:message var="txtLabel" code="confirmed" />				
+				<c:if test="${userInvitation.baccepted and not empty userInvitation.datetimeResponse}">
+					&#160;<img src="${images}/16x16/accept.png" alt="${txtLabel}" title="${txtLabel}" />
+				</c:if>
+				<spring:message var="txtLabel" code="rejected" />				
+				<c:if test="${not userInvitation.baccepted and not empty userInvitation.datetimeResponse}">
+					&#160;<img src="${images}/16x16/delete.png" alt="${txtLabel}" title="${txtLabel}" />
+				</c:if>
+				<spring:message var="txtLabel" code="unanswered" />				
+				<c:if test="${empty userInvitation.datetimeResponse}">
+					&#160;<img src="${images}/16x16/help.png" alt="${txtLabel}" title="${txtLabel}" />
+				</c:if>
+			</td>
+
+			<c:if test="${userSelectMode eq UserAdminSelectionMode.USERS_INVITATIONS}">
+				<td>
+				  <c:if test="${not userInvitation.baccepted or empty userInvitation.datetimeResponse}">
+					<spring:message var="txtLabel" code="phrase.invitationAccept" />
+					<input
+						type="image" src="${images}/16x16/thumb_up.png"
+						alt="${txtLabel}" title="${txtLabel}"
+						name="${commandPath}.submitInvitationAccept_${rowStatus.index}" />
+				  </c:if>
+				  <c:if test="${userInvitation.baccepted or empty userInvitation.datetimeResponse}">
+					<spring:message var="txtLabel" code="phrase.invitationRefuse" />
+			  		<input
+						type="image" src="${images}/16x16/thumb_down.png" 
+						alt="${txtLabel}" title="${txtLabel}" 
+						name="${commandPath}.submitInvitationRefuse_${rowStatus.index}" />
+				  </c:if>
+				</td>
+			</c:if>
+
+			<c:set var="userWgCount" value="-" />
+			<c:forEach var="tmpCount" items="${wgCount}" >
+				<c:if test="${tmpCount.key eq user.id}">
+					<c:set var="userWgCount" value="${tmpCount.value}" />
+				</c:if>
+			</c:forEach>
+							
+			<td> ${userWgCount}
+				<c:if test="${userSelectMode eq UserAdminSelectionMode.USERS_HOSTED}">
+				  <shept-opt:chainRow chainName="workgroups4User" code="phrase.editWorkgroupMemberships" image="16x16/shield_go.png" />
+				</c:if>
+				<c:if test="${userSelectMode eq UserAdminSelectionMode.USERS_INVITATIONS}">
+					<spring:message var="txtLabel" code="phrase.editWorkgroupMemberships" />
+					<img src="${images}/16x16/shield.png" alt="${txtLabel}" title="${txtLabel}" />
+				</c:if>
+			</td>
+						
+			<c:if test="${userSelectMode eq UserAdminSelectionMode.USERS_HOSTED}">
+				<spring:message var="txtLabelLock" code="lock" />
+				<spring:message var="txtLabelUnlock" code="unlock" />
+				<td><input
+					type="image" src="${images}/16x16/user_gray.png"
+					alt="${user.bactive ? txtLabelLock : txtLabelUnlock}"
+					title="${user.bactive ? txtLabelLock : txtLabelUnlock}"
+					name="${commandPath}.submitUserActivate_${rowStatus.index}" /> 
+				</td>
+				<spring:message var="txtLabel" code="phrase.invitationRefuse" />
+				<spring:message var="txtLabelConfirm" code="phrase.invitationRefuseConfirm" />
+				<td><input
+					type="image"
+					src="${images}/16x16/user_delete.png"
+					alt="${txtLabel}" title="${txtLabel}"
+					name="${commandPath}.submitUserDelete_${rowStatus.index}"
+					onclick="return confirm('${txtLabelConfirm}')"
+				/></td>
+			</c:if>			 
+			
+		</tr>
+	  </jsp:attribute>
+
+	  <jsp:attribute name="tabSubmit" >
+		<c:if test="${userSelectMode eq UserAdminSelectionMode.USERS_HOSTED}">
+			<br />
+			<div >
+				<spring:message var="txtLabel" code="userMode.userInvite" />
+				<input type="submit"
+					value="${txtLabel} ..."
+					name="${commandPath}.submitUserNew"
+					accesskey="n"
+				/>
+			</div>
+		</c:if>
+	  </jsp:attribute>
+	</shept-core:table>
+
+</jsp:root>

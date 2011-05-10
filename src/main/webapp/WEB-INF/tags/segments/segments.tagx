@@ -1,0 +1,128 @@
+<jsp:root
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:shept-core="http://www.shept.org/tags/shept-core"
+
+	xmlns:views="urn:jsptagdir:/WEB-INF/tags/segments/views"
+	xmlns:forms="urn:jsptagdir:/WEB-INF/tags/segments/forms"
+	xmlns:filters="urn:jsptagdir:/WEB-INF/tags/segments/filters"
+	xmlns:tables="urn:jsptagdir:/WEB-INF/tags/segments/tables"
+	version="2.0"
+>
+
+  <c:choose>
+	<c:when test="${subFormName eq 'home'}">
+		<forms:home />
+	</c:when>
+	<c:when test="${subFormName eq 'wizard'}">
+		<forms:wizard />
+	</c:when>
+	<c:when test="${subFormName eq 'enterHours'}">
+	  <shept-core:subForm headerCode="title.enterHours" >
+		<filters:enterhours />
+		<tables:enterhours />
+	  </shept-core:subForm>
+	</c:when>
+	<c:when test="${subFormName eq 'enterHours1'}">
+	  <shept-core:subForm headerCode="title.enterHours" >
+		<filters:enterhours />
+		<tables:enterhours1 />
+	  </shept-core:subForm>
+	</c:when>
+	<c:when test="${subFormName eq 'enterHours2'}">
+	  <shept-core:subForm headerCode="title.enterHours" >
+		<filters:enterhours />
+		<tables:enterhours2 />
+	  </shept-core:subForm>
+	</c:when>
+	<c:when test="${subFormName eq 'reports'}">
+	  <shept-core:subForm headerCode="title.reports" >
+		<forms:reports />
+	  </shept-core:subForm>
+	</c:when>
+	<c:when test="${subFormName eq 'logins'}">
+	  <shept-core:subForm headerCode="logins" >
+		<tables:logins />
+	  </shept-core:subForm>
+	</c:when>
+	<c:when test="${subFormName eq 'loginsFiltered'}">
+	  <shept-core:subForm headerCode="logins" >
+		<filters:logins />
+		<tables:logins />
+	  </shept-core:subForm>
+	</c:when>
+	<c:when test="${subFormName eq 'workgroups'}">
+	  <shept-core:subForm headerCode="workgroups" >
+		<tables:workgroups />
+	  </shept-core:subForm>
+	</c:when>
+	<c:when test="${subFormName eq 'workgroupsFiltered'}">
+	  <shept-core:subForm headerCode="workgroups" >
+		<filters:workgroupMode />
+		<tables:workgroupsUsers />
+	  </shept-core:subForm>
+	</c:when>
+	<c:when test="${subFormName eq 'usersFiltered'}">
+	  <shept-core:subForm headerCode="user" >
+		<filters:users />
+		<tables:users />
+	  </shept-core:subForm>
+	</c:when>
+	<c:when test="${subFormName eq 'usersInvited'}">
+	  <shept-core:subForm headerCode="user" >
+		<tables:users />
+	  </shept-core:subForm>
+	</c:when>
+	<c:when test="${subFormName eq 'userMode'}">
+	  <shept-core:subForm headerCode="user" >
+		<filters:userMode />
+	  </shept-core:subForm>
+	</c:when>
+	<c:when test="${subFormName eq 'userInvitations'}">
+	  <shept-core:subForm headerCode="user" >
+		<tables:userInvitations />
+	  </shept-core:subForm>
+	</c:when>
+	<c:when test="${subFormName eq 'userForm'}">
+	  <shept-core:subForm headerCode="user" >
+		<forms:userForm />
+	  </shept-core:subForm>
+	</c:when>
+	<c:when test="${subFormName eq 'issues'}">
+	  <shept-core:subForm headerCode="issues" >
+		<tables:issues />
+	  </shept-core:subForm>
+	</c:when>
+	<c:when test="${subFormName eq 'passwordChange'}">
+		<forms:passwordChange />
+	</c:when>
+	<c:when test="${subFormName eq 'workgroups4User'}">
+	  <shept-core:subForm headerCode="authorizations" >
+		<tables:workgroups4User />
+	  </shept-core:subForm>
+	</c:when>
+	<c:when test="${subFormName eq 'users4Workgroup'}">
+	  <shept-core:subForm headerCode="authorizations" >
+		<tables:users4Workgroup />
+	  </shept-core:subForm>
+	</c:when>
+ 	<c:when test="${subFormName eq 'userInvite'}">
+	  <shept-core:subForm headerCode="invite" >
+		<filters:searchUser />
+		<c:if test="${subCommand.filter.searchHint ne subCommand.filter.search}">
+			<tables:usersAddUser />
+<!-- 
+			<c:set var="editIndex" value="${componentProperties['editIndex']}" />
+			<c:if test="${not empty editIndex}">
+				<forms:userEdit subPath="source[${editIndex}]" commandName="${commandName}" childIndex="${childIndex}" />
+			</c:if>
+ -->
+		</c:if>
+	  </shept-core:subForm>
+	</c:when>
+	<c:otherwise>
+		<p style="color: red">Shept contract error: The requested form <b>'${subFormName}'</b> needs to be registered within your applications <b>/WEB-INF/tags/segments/segments.tagx</b> file</p>
+	</c:otherwise>
+  </c:choose>
+
+</jsp:root>

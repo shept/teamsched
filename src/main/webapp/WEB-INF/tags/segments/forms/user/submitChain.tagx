@@ -1,0 +1,62 @@
+
+<jsp:root
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	version="2.0"
+>
+
+		<div class="formEditItem sheptClearfix" >
+			<div style="float: right;">
+				<spring:message var="txtLabel" code="logins" />	
+				<input
+					type="image"
+					src="${images}/32x32/key_go.png"
+					alt="${txtLabel}"
+					title="${txtLabel}"
+					name="${commandPath}.submitChain_loginLogs"
+				/> &#160;&#160;
+				<spring:message var="txtLabel" code="workgroups" />	
+				<input
+					type="image"
+					src="${images}/32x32/cog_go.png"
+					alt="${txtLabel}"
+					title="${txtLabel}"
+					name="${commandPath}.submitChain_workgroups"
+				/> &#160;&#160;
+				<spring:message var="txtLabel" code="phrase.ownedWorkgroups" />	
+				<input
+					type="image"
+					src="${images}/32x32/cog_go.png"
+					alt="${txtLabel}"
+					title="${txtLabel}"
+					name="${commandPath}.submitChain_ownedWorkgroups"
+				/> &#160;&#160;
+				<spring:message var="txtLabel" code="userMode.userHosted" />	
+				<input
+					type="image"
+					src="${images}/32x32/group_go.png"
+					alt="${txtLabel}"
+					title="${txtLabel}"
+					name="${commandPath}.submitChain_usersInvited"
+				/> &#160;&#160;
+				<c:if test="${subCommand.editMode eq UserAdminEditMode.USER_ADMIN}">
+		
+					<spring:message var="buttonOkLabel" code="ok" />
+					<spring:message var="buttonCancelLabel" code="cancel" />
+
+					<spring:message var="txtLabel" code="delete" />	
+		 			<img
+						src="${images}/32x32/delete.png"
+						alt="${txtLabel}" title="${txtLabel}" 
+						name="${commandPath}.submitDelete_dummyParm4Image" 
+						style="cursor: pointer; vertical-align: top"
+						onclick="openConfirmDialog('${txtLabel}', this, 
+							'${commandPath}.submitDelete_dummyParm4Image', 
+							'${buttonOkLabel}', '${buttonCancelLabel}')"
+					/> 
+				</c:if>
+			</div>
+		</div>
+
+</jsp:root>

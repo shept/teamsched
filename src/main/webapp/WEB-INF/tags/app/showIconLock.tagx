@@ -1,0 +1,18 @@
+<jsp:root
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	version="2.0"
+>
+	<jsp:directive.attribute name="disabled" type="java.lang.Boolean" rtexprvalue="true" />
+
+	<c:choose>
+		<c:when test="${disabled}">
+			<img src="${images}/16x16/lock.png" />
+		</c:when>
+		<c:otherwise>
+			<img src="${images}/16x16/blank.png" />
+		</c:otherwise>
+	</c:choose>
+
+</jsp:root>

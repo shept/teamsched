@@ -1,0 +1,62 @@
+
+<jsp:root
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:app="urn:jsptagdir:/WEB-INF/tags/app"
+	version="2.0"
+>
+
+	<jsp:text>
+        <![CDATA[ 
+			<!--[if lt IE 8]>
+				<span class="errorMessages">
+					For correct rendering of this stylesheet please update your browser to Mozilla (Chrome, Safari, Firefox) or IE 8+
+				</span>
+			<![endif]-->
+		 ]]>
+	</jsp:text>
+
+	<spring:message var="txtCreate" code="create" />
+	<div id="wizard">
+		<ul>
+			<li class="${commandLength eq 1 ? '' : 'dimmed'}">
+			  <a href="#a1">
+			  	1<div>
+					<spring:message code="user" /><br/>
+				<small>${txtCreate}</small>
+				</div>
+			  </a>
+			</li>
+			<li class="${commandLength eq 2 ? '' : 'dimmed'}">
+			  <a href="#a2">
+				2<div>
+					<spring:message code="workgroups" /><br/>
+					<small>${txtCreate}</small>
+				</div>
+			  </a>
+			</li>
+			<li class="${commandLength eq 3 ? '' : 'dimmed'}">
+			  <a href="#a3">
+				3<div>
+					<spring:message code="issues" /><br/>
+					<small>${txtCreate}</small>
+				</div>
+			  </a>
+			</li>
+			<li class="${commandLength eq 4 ? '' : 'dimmed'}">
+			  <a href="#a4">
+				4<div>
+					<spring:message code="go" /><br/>
+				</div>
+			  </a>
+			</li>
+		</ul>
+		<a href="/docs/help/registration" class="help" > 
+			<img src="${images}/32x32/help.png" />
+		</a>
+	</div>
+	
+</jsp:root>

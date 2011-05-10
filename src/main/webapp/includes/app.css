@@ -1,0 +1,115 @@
+html * {
+	font-size: small;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+h1 {
+	font-size: 20px;
+	margin: 0 0 15px;
+	width: 300px;  
+	border-bottom: solid medium #E3E6F1;  
+}
+
+a { color: #5D6091; }
+
+a img { 
+	border: 0 none;
+}
+
+input, select, option, textarea {color: #5d6091;}
+
+body {
+	background-image: url(../images/bg.gif);
+	background-repeat: repeat-x;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	text-align:center;
+}
+
+#main {
+	text-align:left;
+	margin-left: auto;
+	margin-right: auto;
+	min-width: 960px;
+	border: 1px solid #9eb1f7;
+	background-color: #e3e6f1;
+}
+
+#header {
+   height: 100px;
+   min-width: 900px;
+   background-color: #cdd6f6;
+   background-image: url(../images/clock.jpg);
+   background-position: right; 
+   background-repeat: no-repeat; 
+   border-bottom: 1px solid #9eb1f7;
+   font-size:36px;
+   padding-left: 40px;
+}
+
+#header a{
+	text-decoration: none;
+}	
+
+div#content {
+	display: block;
+	font-size: medium;
+	background-color: #edeff5;
+	color: #5d6091;
+	min-height: 400px;
+	padding: 20px 20px 20px 25px;
+	margin: 20px 20px 20px 170px;
+}
+
+div#footer {
+	border-top: 1px solid #9eb1f7;
+	background-color: #cdd6f6;
+	padding: 3px;
+	padding-right: 20px;
+	text-align: right;
+	color: #5d6091;
+}
+
+#footer a {
+	font-weight: bold;
+	color: #5d6091;
+}
+
+#footer a:VISITED {
+	color: #5d6091;
+}
+
+/* Headline upper left corner */
+.headline {
+	color: #5D6091;
+	font-family: cursive;
+	font-size: 600%;
+}
+
+/* timeapp date rollers */
+
+.timeEntry_wrap {
+	float: left;
+	width: 80px;
+}
+
+.flag {
+	border: 0px;
+}
+
+.help img {
+	vertical-align: middle;
+}
+
+img.ui-datepicker-trigger {
+	vertical-align: top;
+	padding-left: 10px;	
+}
+
+div.hide {
+	display: none;
+}
+
+table label {
+	font-weight: bold;
+}

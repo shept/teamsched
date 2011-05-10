@@ -1,0 +1,46 @@
+
+<jsp:root
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:shept-core="http://www.shept.org/tags/shept-core"
+	version="2.0"
+>
+
+	<shept-core:includeJavaScript />
+	
+	<shept-core:filter >
+		<spring:message var="txtLabel" code="searchfilter" />
+		<p>
+ 		<spring:bind path="searchHint" >
+	 		<c:set var="txtSearchHint" value="${status.value}" />
+ 		</spring:bind>
+ 		
+		<form:label path="search" >
+			${txtLabel}&#160;&#160;
+		</form:label>
+		
+		<c:if test="${subCommand.filter.search eq txtSearchHint}" >
+			<c:set var="cssClass" value="sheptFieldBlur" />
+		</c:if>
+		
+		<form:input 
+			path="search" 
+			cssErrorClass="sheptFieldError"
+			size="60"
+			onblur="onBlur(this,'${txtSearchHint}');"
+			onfocus="onFocus(this,'${txtSearchHint}');"
+			cssClass="${cssClass}"
+		/>&#160;&#160;
+		<input type="submit"
+			value="${txtLabel} ..."
+			name="${commandPath}.submitFilter"
+			id="${commandPath}.submitFilter"
+			accesskey="s"
+		/>
+		
+		</p>
+	</shept-core:filter>
+
+</jsp:root>

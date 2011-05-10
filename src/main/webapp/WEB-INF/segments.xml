@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:lang="http://www.springframework.org/schema/lang"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd" >
+
+	<context:annotation-config />
+
+	<bean id="bindingInitializer" abstract="true" parent="sheptBindingComponentInitializerTemplate" >
+		<property name="formatResolver" ref="localeFormatResolver" />
+	</bean>
+	 
+	<bean id="baseDataGridConfig" abstract="true" parent="sheptDataGridTemplate" >
+		<property name="componentBindingInitializer">
+			<bean parent="bindingInitializer" />
+		</property>
+	</bean>
+
+<!-- segments start here -->
+
+	<bean name="home" parent="sheptSegmentTemplate" />
+
+	<bean name="users" parent="baseDataGridConfig" >
+		<property name="entityClass" value="org.shept.apps.teamsched.orm.User" />
+		<property name="componentPostprocessor" ref="commonPostProcessor" />
+	</bean>
+
+	<bean name="usersFiltered" parent="users" />
+	<bean name="usersInvited" parent="users" />
+	
+	<bean name="userInvite" parent="sheptSegmentTemplate" />
+
+	<bean name="userMode" parent="sheptSegmentTemplate" >
+		<property name="componentPostprocessors" >
+			<list merge="true" >
+				<ref bean="userModePostProcessor" />
+			</list>
+		</property>	
+	</bean>
+
+	<bean name="userInvitations" parent="baseDataGridConfig" >
+		<property name="filterClass" value="org.shept.apps.teamsched.web.controller.filters.UserModeFilter" />
+		<property name="componentPostprocessors" >
+			<list merge="true" >
+				<ref bean="userModePostProcessor" />
+				<ref bean="userInvitationsPostProcessor" />
+			</list>
+		</property>	
+	</bean>
+
+	<bean name="workgroups" parent="baseDataGridConfig">
+		<property name="entityClass" value="org.shept.apps.teamsched.orm.Workgroup" />
+	</bean>
+
+	<bean name="workgroupsFiltered" parent="workgroups" >
+		<property name="filterClass" value="org.shept.apps.teamsched.web.controller.filters.WorkgroupModeFilter" />
+		<property name="componentPostprocessor" ref="workgroupModePostProcessor" />
+		<property name="transaction" >
+			<bean parent="sheptTransactionTemplate" p:save="saveWorkgroups" />
+		</property>
+	</bean>
+
+	<bean name="logins" parent="baseDataGridConfig">
+		<property name="entityClass" value="org.shept.apps.teamsched.orm.LoginLog" />
+		<property name="filterClass" value="org.shept.apps.teamsched.web.controller.filters.LoginHistoryFilter" />
+		<property name="componentBindingInitializer">
+			<bean parent="bindingInitializer" >
+				<property name="calendarEditors" >
+					<map>
+					  <entry key="dateLogin" value="DATETIME_FORMAT_SHORT" />
+					  <entry key="dateLogout" value="DATETIME_FORMAT_SHORT" />
+					</map>
+				</property>
+ 			</bean>
+		</property>
+		<property name="componentPostprocessor" ref="loginAdminPostProcessor" />
+	</bean>
+
+	<bean name="loginsFiltered" parent="logins"/>
+
+	<bean name="passwordChange" parent="sheptSegmentTemplate">
+		<property name="validator" ref="userValidatorChangePassword" />
+	</bean>
+	
+	<bean name="userForm" parent="sheptSegmentTemplate" >
+		<property name="entityClass" value="org.shept.apps.teamsched.orm.User" />
+		<property name="validator" ref="userValidator" />
+		<property name="componentPostprocessor" ref="commonPostProcessor" />
+	</bean>
+
+	<bean name="issues" parent="baseDataGridConfig" >
+		<property name="entityClass" value="org.shept.apps.teamsched.orm.Issue" />	
+	</bean>
+
+	<bean name="workgroups4User" parent="baseDataGridConfig" >
+		<property name="filterClass" value="org.shept.apps.teamsched.web.controller.filters.UsersAndWorkgroupsFilter" />
+		<property name="transaction" >
+			<bean parent="sheptTransactionTemplate" p:save="saveUserWorkgroups" />
+		</property>
+	</bean>
+	
+	<bean name="users4Workgroup" parent="baseDataGridConfig">
+		<property name="filterClass" value="org.shept.apps.teamsched.web.controller.filters.UsersAndWorkgroupsFilter" />
+		<property name="transaction" >
+			<bean parent="sheptTransactionTemplate" p:save="saveUserWorkgroups" />
+		</property>
+	</bean>
+
+	<bean name="enterHours" parent="baseDataGridConfig">
+		<property name="filterClass" value="org.shept.apps.teamsched.web.controller.filters.EnterHoursFilter" />
+		<property name="componentBindingInitializer">
+			<bean parent="bindingInitializer" >
+				<property name="dateEditors">
+					<map>
+					  <entry key="timefrom" value="TIME_FORMAT_SHORT" />
+					  <entry key="timetill" value="TIME_FORMAT_SHORT" />
+					</map>
+				</property>
+				<property name="validator" ref="enterHoursValidator" />
+ 			</bean>
+		</property>
+		<property name="componentPostprocessor" ref="enterHoursPostProcessor" />
+		<property name="newModelSize" value="3" />
+		<property name="pageSize" value="100" />
+	</bean>
+
+	<bean name="enterHours1" parent="enterHours" />
+
+	<bean name="enterHours2" parent="enterHours" />
+
+	<bean id="enterHoursPostProcessor" class="org.shept.apps.teamsched.web.controller.postprocessors.EnterHoursPostProcessor" />
+	<bean id="loginAdminPostProcessor" class="org.shept.apps.teamsched.web.controller.postprocessors.LoginAdminPostProcessor" />
+	<bean id="userInvitationsPostProcessor" class="org.shept.apps.teamsched.web.controller.postprocessors.UserInvitationsPostProcessor" />
+	<bean id="userModePostProcessor" class="org.shept.apps.teamsched.web.controller.postprocessors.UserModePostProcessor" />
+	<bean id="workgroupModePostProcessor" class="org.shept.apps.teamsched.web.controller.postprocessors.WorkgroupModePostProcessor" />
+	<bean id="commonPostProcessor" class="org.shept.apps.teamsched.web.controller.postprocessors.CommonPostProcessor" />
+
+	<bean name="userValidatorChangePassword" class="org.shept.apps.teamsched.web.controller.validators.UserValidatorChangePassword" />
+	<bean name="userValidator" class="org.shept.apps.teamsched.web.controller.validators.UserValidator" />
+	<bean name="enterHoursValidator" class="org.shept.apps.teamsched.web.controller.validators.EnterHoursValidator" />
+
+</beans>

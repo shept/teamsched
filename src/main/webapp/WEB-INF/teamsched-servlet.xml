@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:lang="http://www.springframework.org/schema/lang"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd" >
+
+	<context:annotation-config />
+	
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:hibernate.properties</value>
+                <value>classpath:mail.properties</value>
+            </list>
+        </property>
+    </bean>
+	
+	<bean id="bindingInitializer" parent="sheptBindingInitializerTemplate" >
+		<property name="dateTimeFormat" value="DATE_FORMAT_SHORT" />
+		<property name="formatResolver" ref="localeFormatResolver" />
+	</bean>
+
+	<!--  This is the parent controller of all components -->
+	<bean id="sheptController" abstract="true" parent="sheptControllerTemplate" >
+		<property name="webBindingInitializer" ref="bindingInitializer" />
+		<property name="delegates">
+		  <list merge="true">		    
+			<ref bean="userComponent" />
+			<ref bean="userInvitationComponent" />
+			<ref bean="reportComponent" />
+		  </list>
+		</property>
+	</bean>
+
+	<bean id="urlMapping" parent="sheptMappingTemplate" 
+		class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping">
+		<property name="interceptors" >
+			<list merge="true" >
+				<!--  Exposing enums to request mapping so we can use Enums in JSP / JSTL -->
+            	<bean class="org.shept.org.springframework.web.servlet.mvc.interceptors.EnumExposureHandlerInterceptor">
+					<property name="enumClasses">
+                    	<set>
+                        	<value>org.shept.apps.teamsched.web.controller.commands.UserAdminSelectionMode</value>
+                        	<value>org.shept.apps.teamsched.web.controller.commands.UserAdminEditMode</value>
+                        	<value>org.shept.apps.teamsched.web.controller.commands.WorkgroupSelectMode</value>
+                    	</set>
+                	</property>
+             	</bean>
+         	</list>
+    	</property>
+	</bean>
+
+	<!-- Declare the resolvers -->
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver"/>
+
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+		<property name="contentType" value="text/html;charset=UTF-8" />
+		<property name="prefix" value="/WEB-INF/jspx/" />
+		<property name="suffix" value=".jspx" />
+	</bean>
+
+	<bean name="dummySegment" parent="sheptSegmentTemplate" />
+
+<!-- Other controllers start here -->
+
+	<bean name="/ident.shept"
+		class="org.shept.apps.teamsched.web.controller.IdentController">
+		<property name="successView" value="/home.shept"/>
+		<property name="identService" ref="identService" />
+	</bean>
+
+	<bean name="/jcaptcha"
+		class="org.shept.apps.teamsched.web.controller.CaptchaController">
+		<property name="captchaService" ref="captchaService" />
+	</bean>
+
+	<bean name="/home.shept" parent="sheptController" >
+		<property name="configuration" >
+			<bean parent="sheptTargetTemplate" >
+				<property name="to" ref="home" />
+				<property name="commandFactory" >
+					<bean class="org.shept.apps.teamsched.web.controller.factories.UserConfirmTermsCommandFactory" />
+				</property>
+				<property name="info.code" value="title.intro" />
+			</bean>
+		</property>
+	</bean>
+
+<!-- Shept controllers start here -->
+
+	<bean name="/workgroups.shept" parent="sheptController" >
+		<property name="configuration" >
+			<bean parent="sheptTargetTemplate" >
+				<property name="to" ref="workgroupsFiltered" />
+				<property name="info.code" value="title.userAdmin" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean name="/users.shept" parent="sheptController" 
+		class="org.shept.apps.teamsched.web.controller.UserModeController" >
+		<property name="titleCode" value="title.userAdmin" />
+	</bean>
+
+	<bean name="/adminUsers.shept" parent="sheptController" >
+		<property name="configuration" >
+			<bean parent="sheptTargetTemplate" >
+				<property name="to" ref="usersFiltered" />
+				<property name="info.code" value="title.userAdmin" />
+				<property name="filterInitMethod" value="initializeFilter" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean name="/adminLogins.shept" parent="sheptController" >
+		<property name="configuration" >
+			<bean parent="sheptTargetTemplate" >
+				<property name="to" ref="loginsFiltered" />
+				<property name="info.code" value="title.loginHistory" />
+				<property name="filterClass" value="org.shept.apps.teamsched.web.controller.filters.LoginHistoryFilter" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean name="/password.shept" parent="sheptController" 
+		class="org.shept.apps.teamsched.web.controller.PasswordForgottenController" >
+		<property name="titleCode" value="title.password" />
+	</bean>
+
+	<bean name="/cleanup.shept" parent="/home.shept"
+		class="org.shept.apps.teamsched.web.controller.MaintenanceController" >
+		<property name="dataSource" ref="dataSource" />
+		<property name="schema" value="${hibernate.default_schema}" />
+		<property name="historySizeInDays" value="${historySizeInDays}" />
+	</bean>
+
+	
+	<bean name="/enterhours.shept" parent="sheptController" >
+		<property name="configuration" >
+			<bean parent="sheptTargetTemplate" >
+				<property name="to" ref="enterHours" />
+				<property name="info.code" value="title.enterHours" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean name="/enterhours1.shept" parent="sheptController" >
+		<property name="configuration" >
+			<bean parent="sheptTargetTemplate" >
+				<property name="to" ref="enterHours1" />
+				<property name="info.code" value="title.enterHours" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean name="/enterhours2.shept" parent="sheptController" >
+		<property name="configuration" >
+			<bean parent="sheptTargetTemplate" >
+				<property name="to" ref="enterHours2" />
+				<property name="info.code" value="title.enterHours" />
+			</bean>
+		</property>
+	</bean>
+
+    <bean name="/registration.shept" parent="sheptController"
+		class="org.shept.apps.teamsched.web.controller.RegistrationController">
+		<property name="titleCode" value="title.userRegistration" />
+ 	</bean>
+	
+    <bean name="/reports.shept" parent="sheptController"
+		class="org.shept.apps.teamsched.web.controller.ReportController">
+		<property name="titleCode" value="title.reports" />
+	</bean>
+
+	<bean id="userComponent" 
+			class="org.shept.apps.teamsched.web.controller.components.UserComponent" >
+		<property name="identService" ref="identService" />
+		<property name="successView" value="/home.shept" />
+	</bean>
+	
+	<bean id="userInvitationComponent" class="org.shept.apps.teamsched.web.controller.components.UserInvitationComponent" >
+	</bean>
+	
+	<bean id="reportComponent" class="org.shept.apps.teamsched.web.controller.components.ReportComponent" />
+
+</beans>

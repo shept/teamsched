@@ -1,0 +1,44 @@
+
+<jsp:root
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:app="urn:jsptagdir:/WEB-INF/tags/app"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:shept-core="http://www.shept.org/tags/shept-core"
+	xmlns:security="http://www.springframework.org/security/tags"
+	version="2.0"
+>
+
+	<shept-core:form>
+
+	  <div>
+		<a href="/">
+			<img alt="" src="${images}/teamsched-bg.png" />
+		</a>
+
+		<div class="hide" >
+			<a href="http://www.fotolia.com/id/14998397" 
+				title="Reseau de personnes 3D bleu" 
+				alt="Reseau de personnes 3D bleu">morganimation
+			</a> - Fotolia.com
+		</div>
+
+		<security:authorize ifAnyGranted="ROLE_CONFIRM_TERMS">
+		  <c:if test="${not subCommand.bterms}" >
+ 	  		<form:label path="bterms" >
+			  <a class="navi" href="http:../docs/info/termsAndConditions" target="_blank" >
+				<spring:message code="confirm_tac" />
+			  </a> 
+	  		</form:label>
+	  		<form:checkbox path="bterms" />
+ 			<spring:message code="confirm"  var="txtLabel" />
+	  		<input type="submit" name="${commandPath}.submitConfirmTerms" value="${txtLabel}" />
+		  </c:if>
+		</security:authorize>
+ 	  </div>
+
+ 	</shept-core:form>
+	
+</jsp:root>

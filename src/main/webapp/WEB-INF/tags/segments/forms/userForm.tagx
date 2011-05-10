@@ -1,0 +1,58 @@
+
+<jsp:root
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:shept-core="http://www.shept.org/tags/shept-core"
+	xmlns:user="urn:jsptagdir:/WEB-INF/tags/segments/forms/user"
+	version="2.0"
+>
+	<shept-core:form>
+
+		<user:showStatus />	
+		<user:userRequired />
+		<user:userConfirm />
+		<user:userOptional />
+		<c:if test="${subCommand.editMode eq UserAdminEditMode.USER_ADMIN}">
+			<user:userAdmin />
+		</c:if>
+
+		<div class="sheptFormEditItem sheptClearfix" >
+		<form:label path="user.datecreated" >
+			<spring:message code="datecreated" />
+		</form:label>
+		<form:input path="user.datecreated" cssErrorClass="sheptFieldError" cssStyle="width: 25%" readonly="true"/>
+		</div>
+
+	<c:if test="${not subCommand.verified}">
+		<user:userCaptcha />
+	</c:if>
+
+	<user:userConfirmTerms />
+
+	<c:if test="${subCommand.editMode eq UserAdminEditMode.USER_ADMIN or 
+				 subCommand.editMode eq UserAdminEditMode.USER_EDIT}">
+		<user:submitChain />
+	</c:if>
+
+	<div class="formSubmission">
+		<spring:message var="txtLabel" code="save" />
+		<c:if test="${subCommand.editMode eq UserAdminEditMode.USER_REGISTER}" >
+			<spring:message var="txtLabel" code="proceed" />	
+		</c:if> 
+		<input
+			type="submit"
+			name="${commandPath}.submitSaveUser"
+			id="${commandPath}.submitSaveUser"
+			value="${txtLabel}"
+			accesskey="s"
+		/>&#160;&#160;
+		<spring:message var="txtLabel" code="refresh" />
+		<a href="?${commandPath}.submitCancelUser=true#a${childIndex}" >
+			${txtLabel}
+		</a>&#160;&#160;
+	</div>
+	</shept-core:form>
+		
+</jsp:root>

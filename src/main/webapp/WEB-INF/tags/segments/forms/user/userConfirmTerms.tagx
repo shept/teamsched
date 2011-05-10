@@ -1,0 +1,28 @@
+
+<jsp:root
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:form="http://www.springframework.org/tags/form"
+	version="2.0"
+>
+
+	<c:if test="${subCommand.bterms and subCommand.editMode ne UserAdminEditMode.USER_REGISTER}" >
+		<c:set var="disabled" value="true"  />
+	</c:if>
+	
+	<div class="sheptFormEditItem sheptClearfix" >
+	  <form:label path="bterms" cssErrorClass="sheptFieldError">
+		<spring:message code="confirm_tac" />
+		<c:if test="${empty disabled and 
+			subCommand.editMode eq UserAdminEditMode.USER_REGISTER}" >
+			<span class="sheptRequired">*</span>
+		</c:if>
+	  </form:label>
+	  <form:checkbox path="bterms" 
+	  	disabled="${disabled}" 
+	  	cssErrorClass="sheptFieldError" 
+	  />
+	</div>
+
+</jsp:root>

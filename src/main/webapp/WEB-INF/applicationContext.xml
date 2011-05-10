@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:lang="http://www.springframework.org/schema/lang"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!--  NOTE: context:component-scan and tx:annotation-driven may not be in the same .xml configuration
+		Namely in the xxx-servlet.xml tx:annotation-driven may not be used on the same service as
+		context:component-scan 
+	-->
+    <tx:annotation-driven />
+
+	<!-- It is preferable to use  aop:aspectj-autoproxy proxy-target-class="true" 
+		When omitting this JDK-based proxies will be used but then we cannot assign
+		those proxies via bean factory to the real class (TypeMismatch).
+		There is a workaround however: @see http://forum.springsource.org/showthread.php?t=60216
+	-->
+	<aop:aspectj-autoproxy proxy-target-class="true"/>
+
+    <!-- Configurer that replaces ${...} placeholders with values from properties files -->
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:hibernate.properties</value>
+                <value>classpath:mail.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- The DBCP DataSource -->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${hibernate.connection.driver_class}" />
+        <property name="url" value="${hibernate.connection.url}" />
+        <property name="username" value="${hibernate.connection.username}" />
+        <property name="password" value="${hibernate.connection.password}" />
+        <property name="maxActive" value="${dataSource.maxActive}" />
+        <property name="validationQuery" value="${dataSource.validationQuery}" />
+    </bean>
+
+    <!-- Hibernate Session Factory Bean -->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+	    <property name="configLocation" value="classpath:hibernate.cfg.xml" />
+        <property name="dataSource" ref="dataSource" />
+		<property  name="configurationClass" value="org.hibernate.cfg.AnnotationConfiguration" />
+        <property name="hibernateProperties">
+        	<props>
+<!--  			<prop key="hibernate.bytecode.provider">cglib</prop>  -->
+  				<prop key="hibernate.bytecode.provider">javassist</prop>
+        		<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+        		<prop key="hibernate.default_schema">${hibernate.default_schema}</prop>
+      			<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+      			<prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+        	</props>
+        </property>
+    </bean>
+	
+    <!-- The transactionmanager to use for regular non JTA datasource -->
+    <bean id="transactionManager"
+        class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+			<util:list>
+				<value>org.shept.resources.i18n.messages</value>
+				<value>labels</value>
+				<value>messages</value>
+				<value>infos</value>
+				<value>templates</value>
+				<value>urls</value>
+			</util:list>
+		</property>
+	</bean>
+
+	<bean id="daoTime" class="org.shept.apps.teamsched.orm.dao.TimeDao">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	<alias name="daoTime" alias="dao"/>
+
+<!-- keep this default -->
+	<bean id="pageHolderFactory" parent="sheptPageHolderFactoryTemplate" />
+
+	<bean id="selectionState" 
+		class="org.shept.apps.teamsched.web.support.SessionData" 
+		scope="session">
+ 	 	<aop:scoped-proxy/>
+  	</bean>
+
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="${mail.host}"/>
+		<property name="username" value="${mail.username}"/>
+		<property name="password" value="${mail.password}"/>
+		<!-- 
+		<property name="javaMailProperties">
+			<util:properties>
+				<prop key="mail.smtp.auth">${mail.smtp.auth}</prop>
+			</util:properties>
+		</property>
+		 -->
+	</bean>
+	
+	<bean id="mailService" class="org.shept.apps.teamsched.web.support.MailService">
+		<property name="mailSender" ref="mailSender"/>
+		<property name="velocityConfig" ref="velocityConfig"/>
+		<property name="returnAddress" value="${mail.address.noresponse}"></property>
+	</bean>
+
+	<bean id="identService" class="org.shept.apps.teamsched.web.support.IdentService">
+		<property name="dao" ref="daoTime"/>
+		<property name="mailService" ref="mailService" />
+		<property name="serviceUrl" value="${serviceUrl}" />
+	</bean>
+
+	<bean id="velocityConfig" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+		<property name="resourceLoaderPath" value="velocity" />
+	</bean>
+
+<!-- 
+	<bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+		<property name="velocityProperties">
+			<value>
+				resource.loader=theLoader
+				theLoader.resource.loader.class=org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+			</value>
+		</property>
+	</bean>
+ -->	
+</beans>

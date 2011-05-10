@@ -1,0 +1,176 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.shept</groupId>
+  <artifactId>apps.teamsched</artifactId>
+  <packaging>war</packaging>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>TeamSched</name>
+  <url>http://teamsched.com</url>
+
+	<developers>
+		<developer>
+			<id>aha</id>
+			<name>Andreas Hahn</name>
+			<email>ahahn@gmx.net</email>
+			<organization>Shept</organization>
+			<organizationUrl>http://shept.org/</organizationUrl>
+			<roles>
+				<role>architect</role>
+				<role>developer</role>
+			</roles>
+		</developer>
+
+		<developer>
+			<id>gka</id>
+			<name>Gerno Kaufmann</name>
+			<email>gkaufmann@compuserve.com</email>
+			<organization>Shept</organization>
+			<organizationUrl>http://shept.org/</organizationUrl>
+			<roles>
+				<role>architect</role>
+				<role>developer</role>
+			</roles>
+		</developer>
+
+	</developers>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  	</properties>
+
+	<build>
+
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+		</resources>
+		
+		<finalName>teamsched-${version}</finalName>
+    	
+	</build>
+	
+	<dependencies>
+		
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Logger definitions start here -->
+		<dependency>
+    		<groupId>org.slf4j</groupId>
+    		<artifactId>slf4j-api</artifactId>
+    		<version>1.6.1</version>
+		</dependency>
+		
+		<dependency>
+    		<groupId>org.slf4j</groupId>
+    		<artifactId>log4j-over-slf4j</artifactId>
+    		<version>1.6.1</version>
+		</dependency>
+		
+		<dependency>
+    		<groupId>ch.qos.logback</groupId>
+    		<artifactId>logback-core</artifactId>
+    		<version>0.9.28</version>
+		</dependency>
+
+		<dependency>
+    		<groupId>ch.qos.logback</groupId>
+    		<artifactId>logback-classic</artifactId>
+    		<version>0.9.28</version>
+		</dependency>
+		<!-- Logger definitions end here -->
+		
+		<!-- Tomcat (6) 'completion' -->
+		<dependency>
+		  <groupId>javax.servlet</groupId>
+		  <artifactId>jstl</artifactId>
+		  <version>1.2</version>
+		</dependency>
+
+		<dependency>
+    		<groupId>taglibs</groupId>
+		    <artifactId>standard</artifactId>
+		    <version>1.1.2</version>
+		</dependency>
+		<!-- End of Tomcat (6) 'completion' -->
+
+		<dependency>
+		    <groupId>postgresql</groupId>
+		    <artifactId>postgresql</artifactId>
+		    <version>8.3-606.jdbc3</version>
+		    <scope>runtime</scope>
+		</dependency>
+		
+		<dependency>
+    		<groupId>commons-io</groupId>
+    		<artifactId>commons-io</artifactId>
+    		<version>2.0.1</version>
+		</dependency>
+
+		<dependency>
+    		<groupId>org.shept</groupId>
+    		<artifactId>shept-core</artifactId>
+    		<version>1.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+    		<groupId>org.hibernate</groupId>
+    		<artifactId>hibernate-annotations</artifactId>
+    		<version>3.4.0.GA</version>
+		</dependency>
+				
+		<dependency>
+		    <groupId>javax.mail</groupId>
+		    <artifactId>mail</artifactId>
+		    <version>1.4.1</version>
+		</dependency>
+
+		<dependency>
+		    <groupId>velocity</groupId>
+		    <artifactId>velocity</artifactId>
+		    <version>1.5</version>
+		</dependency>
+
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-web</artifactId>
+		    <version>3.0.5.RELEASE</version>
+		</dependency>
+
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-config</artifactId>
+		    <version>3.0.5.RELEASE</version>
+		</dependency>
+
+		<dependency>
+		    <groupId>jasperreports</groupId>
+		    <artifactId>jasperreports</artifactId>
+		    <version>3.5.3</version>
+        	<exclusions>
+                <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                </exclusion>
+        	</exclusions>
+		</dependency>
+
+		<!-- javax servlet version 2.3 is requested by jcaptcha
+			(it should be there of scope 'provided' but it isn't ...)
+			so we need to omit here -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.3</version>
+		    <scope>provided</scope>
+        </dependency>
+
+	</dependencies>
+  
+</project>

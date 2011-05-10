@@ -1,0 +1,87 @@
+
+<jsp:root
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:pager="http://www.shept.org/tags/pager"
+	xmlns:app="urn:jsptagdir:/WEB-INF/tags/app"
+	xmlns:subForm="urn:jsptagdir:/WEB-INF/tags/components"
+	version="2.0"
+>
+	<c:choose>
+	  <c:when test="${empty subCommand.user.password or componentProperties['showPassword']}">
+		<div class="sheptFormEditItem sheptClearfix" >
+		<form:label path="newPassword">
+			<spring:message code="password" text="Password"/>
+			<c:if test="${empty subCommand.user.password}">
+				<span class="sheptRequired">*</span>
+			</c:if>
+		</form:label>
+		<form:password path="newPassword" cssErrorClass="sheptFieldError" />
+		</div>
+		
+		<div class="sheptFormEditItem sheptClearfix" >
+		<form:label path="repeatPassword">
+			<spring:message code="password" text="Password"/>&#160;
+			<c:if test="${empty subCommand.user.password}">
+				<span class="sheptRequired">*</span>
+			</c:if>
+			<br/><small>(<spring:message code="reenter" />)</small>
+		</form:label>
+		<form:password path="repeatPassword" cssErrorClass="sheptFieldError" />
+		</div>
+	  </c:when>
+	  <c:otherwise>
+		<div class="sheptFormEditItem sheptClearfix" >
+		 	<label>
+			  <spring:message code="password" />
+		 	</label>
+			<div>
+				<a href="?${commandPath}.submitPropertySet_showPassword::true=dummy#a${childIndex}" >
+					<spring:message code="change" />
+				</a>
+			</div>
+		</div>
+	  </c:otherwise>
+	</c:choose>
+	
+	<c:choose>
+ 	  <c:when test="${empty subCommand.user.email or componentProperties['showEmail']}">
+		<div class="sheptFormEditItem sheptClearfix" >
+		<form:label path="user.newemail" >
+			<spring:message code="email" text="Email"/>
+			<c:if test="${empty subCommand.user.email}">
+				<span class="sheptRequired">*</span>
+			</c:if>
+		</form:label>
+		<form:input path="user.newemail" cssErrorClass="sheptFieldError" />
+		</div>
+		
+		<div class="sheptFormEditItem sheptClearfix" >
+		<form:label path="repeatEmail" >
+			<spring:message code="email" text="Email"/>
+			<c:if test="${empty subCommand.user.email}">
+				<span class="sheptRequired">*</span>
+			</c:if>
+			<br/><small>(<spring:message code="reenter" />)</small>
+		</form:label>
+		<form:input path="repeatEmail" cssErrorClass="sheptFieldError" />
+		</div>
+ 	  </c:when>
+	  <c:otherwise>
+		<div class="sheptFormEditItem sheptClearfix" >
+			<label>
+				<spring:message code="email" />
+			</label>
+			<div>
+				<a href="?${commandPath}.submitPropertySet_showEmail::true=dummy#a${childIndex}" >
+					<spring:message code="change" />
+				</a>
+				&#160;<c:out value="${subCommand.user.email}" />
+			</div>
+		</div>
+	  </c:otherwise>
+	</c:choose>
+	
+</jsp:root>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:sec="http://www.springframework.org/schema/security"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+
+<!--
+  - Application context containing authentication, channel
+  - security and web URI beans.
+  -
+  - Only used by "filter" artifact.
+  -
+  - $Id: spring-security.xml,v 1.2 2009/11/27 18:53:20 oops.oops Exp $
+  -->
+
+   <!-- ======================== FILTER CHAIN ======================= -->
+   
+	<sec:http access-denied-page="/home.shept" entry-point-ref="entryPoint" >
+		<sec:intercept-url pattern="/jcaptcha" access="ROLE_ANONYMOUS,ROLE_CONFIRM_TERMS,ROLE_USER,ROLE_ADMINISTRATOR" />
+		<sec:intercept-url pattern="/images/**" access="ROLE_ANONYMOUS,ROLE_CONFIRM_TERMS,ROLE_USER,ROLE_ADMINISTRATOR" />
+		<sec:intercept-url pattern="/includes/**" access="ROLE_ANONYMOUS,ROLE_CONFIRM_TERMS,ROLE_USER,ROLE_ADMINISTRATOR" />
+		<sec:intercept-url pattern="/velocity/**" access="ROLE_ANONYMOUS,ROLE_CONFIRM_TERMS,ROLE_USER,ROLE_ADMINISTRATOR" />
+		<sec:intercept-url pattern="/password*" access="ROLE_ANONYMOUS" />
+		<sec:intercept-url pattern="/login*" access="ROLE_ANONYMOUS,ROLE_USER,ROLE_ADMINISTRATOR" />
+		<sec:intercept-url pattern="/ident*" access="ROLE_ANONYMOUS,ROLE_CONFIRM_TERMS,ROLE_USER,ROLE_ADMINISTRATOR" />
+		<sec:intercept-url pattern="/imprint*" access="ROLE_ANONYMOUS,ROLE_CONFIRM_TERMS,ROLE_USER,ROLE_ADMINISTRATOR" />
+		<sec:intercept-url pattern="/registration*" access="ROLE_ANONYMOUS" />
+		<sec:intercept-url pattern="/home*" access="ROLE_ANONYMOUS,ROLE_CONFIRM_TERMS,ROLE_USER,ROLE_ADMINISTRATOR" />
+		<sec:intercept-url pattern="/cleanup*" access="ROLE_ADMINISTRATOR" />
+		<sec:intercept-url pattern="/admin**" access="ROLE_ADMINISTRATOR" />
+		<sec:intercept-url pattern="/**" access="ROLE_USER,ROLE_ADMINISTRATOR" />
+		
+		<sec:anonymous granted-authority="ROLE_ANONYMOUS"/>
+		
+		<sec:custom-filter position="FORM_LOGIN_FILTER" ref="usernamePasswordAuthenticationFilter" />		
+		<sec:logout success-handler-ref="logoutHandler" invalidate-session="true" />
+
+	</sec:http>
+
+	<sec:authentication-manager alias="authenticationManager">
+		<sec:authentication-provider ref="daoAuthenticationProvider" />
+	</sec:authentication-manager>
+
+	<bean id="entryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+		<property name="loginFormUrl" value="/home.shept" />
+	</bean> 
+	
+ 	<bean id="usernamePasswordAuthenticationFilter" class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter" >
+ 		<property name="postOnly" value="false" />
+ 		<property name="authenticationFailureHandler" ref="authenticationFailureHandler" />
+ 		<property name="authenticationSuccessHandler" ref="authenticationSuccesHandler" />
+ 		<property name="authenticationDetailsSource" ref="webAuthenticationDetailsSource" />
+ 		<property name="authenticationManager" ref="authenticationManager" />
+ 	</bean>
+ 	
+ 	<bean id="logoutHandler" class="org.shept.apps.teamsched.web.security.LogoutSuccessHandler" >
+ 		<property name="dao"><ref bean="daoTime"/></property>
+ 	</bean>
+ 	
+   <bean id="jpaAuth" class="org.shept.apps.teamsched.web.security.UserAuthenticationService">
+      <property name="dao"><ref bean="daoTime"/></property>
+   </bean>
+   
+   <bean id="daoAuthenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+      <property name="userDetailsService"><ref local="jpaAuth"/></property>
+   </bean>
+
+   <!-- Automatically receives AuthenticationEvent messages -->
+   <bean id="loggerListener" class="org.shept.apps.teamsched.web.security.LoggerListener">
+      <property name="dao"><ref bean="daoTime"/></property>
+   </bean>
+  
+	<bean id="authenticationSuccesHandler" class="org.shept.apps.teamsched.web.security.SheptAuthenticationSuccessHandler" />
+
+	<bean id="authenticationFailureHandler" class="org.shept.apps.teamsched.web.security.SheptAuthenticationFailureHandler" >
+      <property name="defaultFailureUrl"><value>/home.shept?login_error=1</value></property>
+	</bean>
+   
+   <bean id="webAuthenticationDetailsSource" class="org.springframework.security.web.authentication.WebAuthenticationDetailsSource" >
+   		<property name="clazz" value="org.shept.apps.teamsched.web.security.WebAuthenticationDetails" />
+   </bean>
+
+</beans>

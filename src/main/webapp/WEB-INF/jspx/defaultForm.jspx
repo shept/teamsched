@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<jsp:root
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:shept-core="http://www.shept.org/tags/shept-core"
+	xmlns:segments="urn:jsptagdir:/WEB-INF/tags/segments"
+	xmlns:app="urn:jsptagdir:/WEB-INF/tags/app"
+	version="2.0"
+>
+	<jsp:directive.page
+		language="java"
+		contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" 
+	/>
+
+	<jsp:output
+		doctype-root-element="html"
+		doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
+		doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
+	/>
+
+	<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<app:includeJQueryBeta />
+	<app:global />
+	
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<app:includeHeader />
+		<title>TeamSchedule - ${formTitle}</title>
+ 
+		<link rel="stylesheet" type="text/css" href="includes/app.css" />
+		<link rel="stylesheet" type="text/css" href="includes/menu.css" />
+		<link rel="stylesheet" type="text/css" href="includes/login.css" />
+		<link rel="stylesheet" type="text/css" href="includes/wizard.css" />
+	</head>
+	
+	<body >
+		<div id="main">
+			<app:header />
+			<app:menu />
+			<app:login />
+
+			<form:form id="main" method="post" >
+				<div id="content">
+					<h1>${formTitle}</h1>
+					<shept-core:error />
+					<shept-core:formWrapper childIndex="0" >
+						<jsp:attribute name="segment" >
+	  						<segments:segments />
+ 						</jsp:attribute>
+ 					</shept-core:formWrapper>
+ 				</div>
+	  		</form:form>
+
+			<app:footer />
+
+			<spring:message var="msg" code="Persist.confirmDeletion" />
+			<shept-core:confirmDialog message="${msg}" />
+
+		</div>
+	</body>
+	</html>
+	
+</jsp:root>

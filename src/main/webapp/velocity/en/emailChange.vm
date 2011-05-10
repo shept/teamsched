@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+<?xml version="1.0" encoding="UTF-8" ?>
+<meta
+	http-equiv="Content-Type"
+	content="text/html; charset=UTF-8"
+/>
+<link
+	href="${serviceURL}/includes/mail.css"
+	type="text/css"
+	rel="stylesheet"
+/>
+<title>TeamSched</title>
+</head>
+
+<body>
+<div id="main">
+<div id="header" >
+	 <a href="${serviceURL}/home.shept" >  
+		<span class="teamsched">TeamSched</span>
+	 </a>
+</div>
+<div id="content">
+<h1>Your email change request</h1>
+Hello ${user.getFirstname()} ${user.getName()}, <br/>
+
+This mail is to confirm your email change request.
+Please confirm the change  <a href="${urlResponseOk}">here</a> 
+<br />
+
+If this change was not initiated by you please <a href="${urlResponseError}">deny here</a>.
+
+<br />
+Enjoy TeamSched !
+</div>
+
+<div id="footer"><a
+	class="navi"
+	href="${serviceURL}/imprint.shept"
+>Imprint</a></div></div>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+<?xml version="1.0" encoding="UTF-8" ?>
+<meta
+	http-equiv="Content-Type"
+	content="text/html; charset=UTF-8"
+/>
+<link
+	href="${serviceURL}/includes/mail.css"
+	type="text/css"
+	rel="stylesheet"
+/>
+<title>TeamSched - Startseite</title>
+</head>
+
+<body>
+<div id="main">
+<div id="header" >
+	 <a href="${serviceURL}/home.shept" >  
+		<span class="teamsched">TeamSched</span>
+	 </a>
+</div>
+<div id="content">
+<h1>Ihre Anfrage</h1>
+Hallo ${user.getFirstname()} ${user.getName()}, <br/>
+
+Ihr Benutzername ist <b>${user.getUsername()}</b>. </br>
+<br />
+<br />
+Hier können Sie sich erneut <a href="${serviceURL}">anmelden</a>.
+<br />
+Viel Erfolg weiterhin mit TeamSched !
+</div>
+
+<div id="footer"><a
+	class="navi"
+	href="${serviceURL}/imprint.shept"
+>Impressum</a></div></div>
+</body>
+</html>

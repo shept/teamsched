@@ -1,0 +1,151 @@
+
+<jsp:root
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:shept-opt="http://www.shept.org/tags/shept-opt"
+	xmlns:shept-core="http://www.shept.org/tags/shept-core"
+	version="2.0"
+>
+
+	<shept-core:includeJavaScript />
+
+	<shept-core:filter >
+		
+	  <c:set var="loc" value="${pageContext.response.locale.language}" />
+	  <c:if test="${loc eq 'en'}" >
+		<c:set var="loc" value="" />
+	  </c:if>
+		  
+	  <div>
+		<table>
+			<tr>
+				<th><spring:message code="username" /></th>
+				<th><spring:message code="ipaddress" /></th>
+				<th><spring:message code="browser" /></th>
+			</tr>
+			<tr>
+				<td><form:input
+					path="userName"
+					cssErrorClass="sheptFieldError"
+				/></td>
+				<td><form:input
+					path="remoteAddr"
+					cssErrorClass="sheptFieldError"
+				/></td>
+				<spring:message var="txtLabel" code="phrase.pleaseSelect" />
+				<td colspan="4">
+					<form:select path="userAgentId">
+					<form:option
+						label="${txtLabel}"
+						value=""
+					/>
+					<form:options
+						items="${userAgents}"
+						itemLabel="name"
+						itemValue="id"
+					/>
+				</form:select></td>
+			</tr>
+			<tr>
+				<th><spring:message code="logins" /></th>
+				<th>&#160;</th>
+				<th><spring:message code="logouts" /></th>
+				<th>
+					<spring:message code="date" />&#160;
+					<spring:message code="from" />
+				</th>
+				<th>
+					<spring:message code="untill" />
+				</th>
+			</tr>
+			<tr>
+				<td colspan="2">
+				<form:radiobutton
+					path="bsuccess"
+					id="${commandPathId}.all"
+					value="" />
+				<form:label path="bsuccess" for="${commandPathId}.all" >
+					<spring:message code="all" />
+				</form:label>
+				<form:radiobutton
+					path="bsuccess"
+					id="${commandPathId}.successful"
+					value="true" />
+				<form:label path="bsuccess" for="${commandPathId}.successful">
+					<spring:message code="successful" />
+				</form:label>
+				<form:radiobutton
+					path="bsuccess"
+					id="${commandPathId}.unsuccessful"
+					value="false" />
+				<form:label path="bsuccess" for="${commandPathId}.unsuccessful">
+					<spring:message code="unsuccessful" />
+				</form:label>
+				</td>
+				<td>
+					<form:checkbox path="blogoutMissing" />
+					<spring:message code="logins.missingOnly" />
+				</td>
+				<td>
+				<spring:message var="txtLabel" code="label.selectDate" />
+				<form:input
+					path="dateFrom"
+					id="${commandPathId}_date-fieldFrom"
+					size="7"
+					cssErrorClass="sheptFieldError"
+				/>
+   				<script>
+					$(function() {
+						$.datepicker.setDefaults( $.datepicker.regional["${loc}"]);
+						$("#${commandPathId}_date-fieldFrom").datepicker({
+						changeYear: true,
+						showWeek: true,
+						numberOfMonths: 3,
+						showButtonPanel: true,
+						buttonImage: "${images}/16x16/date.png",
+						showOn: "both",
+						buttonImageOnly: true
+						});
+					});
+				</script>
+				</td>
+				<td>
+					<form:input
+					path="dateTill"
+					id="${commandPathId}_date-fieldTill"
+					size="7"
+					cssErrorClass="sheptFieldError"
+					/> 
+   				<script>
+					$(function() {
+						$.datepicker.setDefaults( $.datepicker.regional["${loc}"]);
+						$("#${commandPathId}_date-fieldTill").datepicker({
+							changeYear: true,
+							showWeek: true,
+							numberOfMonths: 3,
+							showButtonPanel: true,
+							buttonImage: "${images}/16x16/date.png",
+							showOn: "both",
+							buttonImageOnly: true
+						});
+					});
+				</script>
+				</td>
+			</tr>
+		</table>
+
+		<div >
+  			<shept-opt:submitSearch />
+  		</div>
+  	
+  		<div class="SheptClear">
+  			<!-- comment for proper rendering -->
+  		</div>
+
+		
+	  </div>
+	</shept-core:filter>
+
+</jsp:root>

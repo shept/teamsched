@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+
+<jasperReport name="TimeApp Report" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="682" leftMargin="80" rightMargin="80" topMargin="20" bottomMargin="20">
+	<style name="Crosstab Data Text" isDefault="false" hAlign="Center"/>
+	<parameter name="user" class="java.lang.String"/>
+	<parameter name="dateFormatHeader" class="java.lang.String"/>
+	<parameter name="dateFormat" class="java.lang.String"/>
+	<parameter name="dateFrom" class="java.util.Calendar"/>
+	<parameter name="dateTill" class="java.util.Calendar"/>
+	<parameter name="strName" class="java.lang.String"/>
+	<parameter name="strDate" class="java.lang.String"/>
+	<parameter name="strFrom" class="java.lang.String"/>
+	<parameter name="strUntill" class="java.lang.String"/>
+	<parameter name="strTime" class="java.lang.String"/>
+	<parameter name="strWorkgroup" class="java.lang.String"/>
+	<parameter name="strIssue" class="java.lang.String"/>
+	<parameter name="strComment" class="java.lang.String"/>
+	<parameter name="strTotalSum" class="java.lang.String"/>
+	<parameter name="strPeriodsRecorded" class="java.lang.String"/>
+	<parameter name="strPage" class="java.lang.String"/>
+	<field name="id" class="java.lang.Long"/>
+	<field name="userId" class="java.lang.Integer"/>
+	<field name="datetimefrom" class="java.util.Date"/>
+	<field name="datetimetill" class="java.util.Date"/>
+	<field name="workgroup" class="java.lang.String"/>
+	<field name="issueString" class="java.lang.String"/>
+	<field name="comment" class="java.lang.String"/>
+	<variable name="period" class="java.lang.Long">
+		<variableExpression><![CDATA[new java.lang.Long(($F{datetimetill}.getTime() - $F{datetimefrom}.getTime()) / 60000)]]></variableExpression>
+	</variable>
+	<variable name="periodsum" class="java.lang.Long" calculation="Sum">
+		<variableExpression><![CDATA[$V{period}]]></variableExpression>
+	</variable>
+	<variable name="periodcount" class="java.lang.Long" calculation="Count">
+		<variableExpression><![CDATA[$V{period}]]></variableExpression>
+	</variable>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band/>
+	</title>
+	<pageHeader>
+		<band height="80">
+			<textField>
+				<reportElement x="285" y="15" width="69" height="14"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="12" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{user}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd.MM.yy">
+				<reportElement x="285" y="40" width="80" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[new java.text.SimpleDateFormat($P{dateFormatHeader}).format(new Date())]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="422" y="15" width="262" height="40"/>
+				<imageExpression class="java.lang.String"><![CDATA["reports/header_teil2_white.jpg"]]></imageExpression>
+			</image>
+			<line direction="BottomUp">
+				<reportElement positionType="FixRelativeToBottom" x="0" y="55" width="680" height="1"/>
+				<graphicElement>
+					<pen lineColor="#686B98"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="0" y="0" width="200" height="54" forecolor="#5D6091"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="28" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TeamSched]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="200" y="15" width="75" height="14"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="12" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{strName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="200" y="40" width="75" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="12" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{strDate}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="22">
+			<line direction="BottomUp">
+				<reportElement positionType="FixRelativeToBottom" x="-5" y="20" width="693" height="1"/>
+				<graphicElement>
+					<pen lineColor="#686B98"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="0" y="0" width="71" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{strFrom}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="85" y="0" width="71" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{strUntill}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="168" y="0" width="71" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{strTime}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="240" y="0" width="114" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{strWorkgroup}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="354" y="0" width="71" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{strIssue}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="500" y="0" width="104" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{strComment}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="22">
+			<textField>
+				<reportElement x="0" y="0" width="85" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[new java.text.SimpleDateFormat($P{dateFormat}).format($F{datetimefrom})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="354" y="2" width="138" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{issueString}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="500" y="0" width="178" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{comment}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="-5" y="20" width="693" height="1"/>
+				<graphicElement>
+					<pen lineColor="#686B98"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="85" y="0" width="83" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[new java.text.SimpleDateFormat($P{dateFormat}).format($F{datetimetill})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="240" y="1" width="69" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{workgroup}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="170" y="0" width="69" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[($V{period}.longValue()%60 < 10) ? new java.lang.String().valueOf($V{period}.longValue()/60)+":0"+new java.lang.String().valueOf($V{period}.longValue()%60) : new java.lang.String().valueOf($V{period}.longValue()/60)+":"+new java.lang.String().valueOf($V{period}.longValue()%60)]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="5"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54">
+			<staticText>
+				<reportElement x="0" y="34" width="138" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[http://www.teamsched.com]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="654" y="39" width="27" height="15"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="625" y="39" width="28" height="15"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{strPage}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<lastPageFooter>
+		<band height="57">
+			<staticText>
+				<reportElement x="0" y="30" width="138" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[http://www.teamsched.com]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="653" y="35" width="27" height="15"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="170" y="0" width="41" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[($V{periodsum}.longValue()%60 < 10) ? new java.lang.String().valueOf($V{periodsum}.longValue()/60)+":0"+new java.lang.String().valueOf($V{periodsum}.longValue()%60) : new java.lang.String().valueOf($V{periodsum}.longValue()/60)+":"+new java.lang.String().valueOf($V{periodsum}.longValue()%60)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="384" y="0" width="38" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Long"><![CDATA[$V{periodcount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="211" y="0" width="154" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{strTotalSum}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="422" y="0" width="150" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{strPeriodsRecorded}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="625" y="35" width="28" height="15"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{strPage}]]></textFieldExpression>
+			</textField>
+		</band>
+	</lastPageFooter>
+	<summary>
+		<band height="11"/>
+	</summary>
+</jasperReport>
