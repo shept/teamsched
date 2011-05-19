@@ -24,7 +24,7 @@
 		<developer>
 			<id>gka</id>
 			<name>Gerno Kaufmann</name>
-			<email>gkaufmann@compuserve.com</email>
+			<email>gka@shept.org</email>
 			<organization>Shept</organization>
 			<organizationUrl>http://shept.org/</organizationUrl>
 			<roles>
@@ -47,7 +47,7 @@
 			</resource>
 		</resources>
 		
-		<finalName>teamsched-${version}</finalName>
+		<finalName>teamsched-${project.version}</finalName>
     	
 	</build>
 	
@@ -116,7 +116,7 @@
 		<dependency>
     		<groupId>org.shept</groupId>
     		<artifactId>shept-core</artifactId>
-    		<version>1.0.1-SNAPSHOT</version>
+    		<version>1.0.1</version>
 		</dependency>
 
 		<dependency>
