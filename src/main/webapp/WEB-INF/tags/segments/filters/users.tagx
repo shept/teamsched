@@ -4,12 +4,11 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:form="http://www.springframework.org/tags/form"
-	xmlns:shept-opt="http://www.shept.org/tags/shept-opt"
-	xmlns:shept-core="http://www.shept.org/tags/shept-core"
+	xmlns:shept="http://www.shept.org/tags/shept"
 	version="2.0"
 >
 
-	<shept-core:filter >
+	<shept:filter >
 	<div >
 	  <table > 
 		<tr>
@@ -83,7 +82,7 @@
 	  </table>
 	
 	<div >
-  		<shept-opt:submitSearch />
+  		<shept:submitSearch />
   	</div>
   	
   	<div class="SheptClear">
@@ -92,6 +91,6 @@
 
 	</div>
 		
-	</shept-core:filter>
+	</shept:filter>
 
 </jsp:root>

@@ -4,27 +4,26 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:form="http://www.springframework.org/tags/form"
-	xmlns:shept-pager="http://www.shept.org/tags/shept-pager"
-	xmlns:shept-opt="http://www.shept.org/tags/shept-opt"
-	xmlns:shept-core="http://www.shept.org/tags/shept-core"
+	xmlns:shept="http://www.shept.org/tags/shept"
+	xmlns:table="http://www.shept.org/tags/table"
 	version="2.0"
 >
 
-	<shept-core:table > 
+	<table:table > 
 	  <jsp:attribute name="tabHeader" >
 		<tr class="sheptTableHeader" >
 			<th nowrap="nowrap">
-				<shept-pager:sort sortCol="userName"  code="username" disabled="false" />			
+				<table:sort sortCol="userName"  code="username" disabled="false" />			
 			</th>
 			<th>
-				<shept-pager:sort sortCol="userPassword" code="password" disabled="true"  />
+				<table:sort sortCol="userPassword" code="password" disabled="true"  />
 			</th>
 			<th>Ok</th>
 			<th nowrap="nowrap">
-				<shept-pager:sort sortCol="dateLogin" code="login" />
+				<table:sort sortCol="dateLogin" code="login" />
 			</th>
 			<th nowrap="nowrap">
-				<shept-pager:sort sortCol="dateLogout" code="logout" />
+				<table:sort sortCol="dateLogout" code="logout" />
 			</th>
 			<th>
 				<spring:message code="ipaddress" />
@@ -33,7 +32,7 @@
 				<spring:message code="host" />
 			</th>
 			<th>
-				<shept-pager:sort sortCol="agent" code="useragent" />			
+				<table:sort sortCol="agent" code="useragent" />			
 			</th>
 			<th>Resolution</th>
 			<th>&#160;</th>
@@ -79,14 +78,14 @@
 			</td>
 			<td>${rowObject.screen.name}</td>
 			<td>
-				<shept-opt:chainRow chainName="userForm" code="owner" image="16x16/user_go.png" />
+				<table:chainRow chainName="userForm" code="owner" image="16x16/user_go.png" />
 			</td>
 		</tr>
 	  </jsp:attribute>
 
 	  <jsp:attribute name="tabSubmit" >
-	  	<shept-opt:submission disabled="true"/>
+	  	<shept:submission disabled="true"/>
 	  </jsp:attribute>
-	</shept-core:table>
+	</table:table>
 
 </jsp:root>

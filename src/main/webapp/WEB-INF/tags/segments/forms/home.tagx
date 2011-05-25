@@ -6,12 +6,12 @@
 	xmlns:app="urn:jsptagdir:/WEB-INF/tags/app"
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:form="http://www.springframework.org/tags/form"
-	xmlns:shept-core="http://www.shept.org/tags/shept-core"
+	xmlns:shept="http://www.shept.org/tags/shept"
 	xmlns:security="http://www.springframework.org/security/tags"
 	version="2.0"
 >
 
-	<shept-core:form>
+	<shept:form>
 
 	  <div>
 		<a href="/">
@@ -39,6 +39,6 @@
 		</security:authorize>
  	  </div>
 
- 	</shept-core:form>
+ 	</shept:form>
 	
 </jsp:root>

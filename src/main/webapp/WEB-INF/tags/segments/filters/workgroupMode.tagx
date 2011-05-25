@@ -4,11 +4,11 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:form="http://www.springframework.org/tags/form"
-	xmlns:shept-core="http://www.shept.org/tags/shept-core"
+	xmlns:shept="http://www.shept.org/tags/shept"
 	version="2.0"
 >
 
-	<shept-core:filter >
+	<shept:filter >
 		<c:set var="doSelectMode" value="this.form['${commandPathId}.submitFilter']" />
 		<div style="padding: 10px;">
 			<form:select 
@@ -37,6 +37,6 @@
   			</div>
 		</div>
 	
-	</shept-core:filter>
+	</shept:filter>
 		
 </jsp:root>

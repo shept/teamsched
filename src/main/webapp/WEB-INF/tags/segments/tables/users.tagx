@@ -4,37 +4,36 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:form="http://www.springframework.org/tags/form"
-	xmlns:shept-pager="http://www.shept.org/tags/shept-pager"
-	xmlns:shept-opt="http://www.shept.org/tags/shept-opt"
-	xmlns:shept-core="http://www.shept.org/tags/shept-core"
+	xmlns:shept="http://www.shept.org/tags/shept"
+	xmlns:table="http://www.shept.org/tags/table"
 	xmlns:app="urn:jsptagdir:/WEB-INF/tags/app"
 	version="2.0"
 >
 
-	<shept-core:table > 
+	<table:table > 
 	  <jsp:attribute name="tabHeader" >
 		<tr class="sheptTableHeader" >
 			<th />
 			<th nowrap="nowrap" >
-				<shept-pager:sort sortCol="name" code="name" />	
+				<table:sort sortCol="name" code="name" />	
 			</th>
 			<th>
-				<shept-pager:sort sortCol="firstname" code="firstname" />
+				<table:sort sortCol="firstname" code="firstname" />
 			</th>
 			<th nowrap="nowrap">
-				<shept-pager:sort sortCol="username" code="username" />
+				<table:sort sortCol="username" code="username" />
 			</th>
 			<th nowrap="nowrap">
-				<shept-pager:sort sortCol="email" code="email" />
+				<table:sort sortCol="email" code="email" />
 			</th>
 			<th>
-				<shept-pager:sort sortCol="company" code="company" />			
+				<table:sort sortCol="company" code="company" />			
 			</th>
 			<th nowrap="nowrap">
-				<shept-pager:sort sortCol="zip" code="zip" />
+				<table:sort sortCol="zip" code="zip" />
 			</th>
 			<th>
-				<shept-pager:sort sortCol="city" code="city" />			
+				<table:sort sortCol="city" code="city" />			
 			</th>
 			<th>
 				<spring:message var="txtLabel" code="activation" />
@@ -42,13 +41,13 @@
 				<img src="${images}/16x16/lock_open.png" />
 			</th>
 			<th nowrap="nowrap">
-				<shept-pager:sort sortCol="countryIso" code="flag.country" disabled="true" />
+				<table:sort sortCol="countryIso" code="flag.country" disabled="true" />
 			</th>
 			<th>
-				<shept-pager:sort sortCol="datecreated" code="date" />			
+				<table:sort sortCol="datecreated" code="date" />			
 			</th>
 			<th nowrap="nowrap">
-				<shept-pager:sort sortCol="roleId" code="role" disabled="true" />
+				<table:sort sortCol="roleId" code="role" disabled="true" />
 			</th>
 			<th>&#160;</th>
 			<th>&#160;</th>
@@ -62,7 +61,7 @@
 	  <jsp:attribute name="tabRow" >
 		<tr class="${rowClassDefault}">
 			<td>
-				<shept-opt:iconRow />
+				<table:iconRow />
 			</td>
 
 			<td>
@@ -101,29 +100,29 @@
 				<form:input path="roleId" disabled="true" cssErrorClass="sheptFieldError" size="1" />
 			</td>					
 			<td>
-				<shept-opt:chainRow chainName="logins" code="logins" image="16x16/key_go.png" />
+				<table:chainRow chainName="logins" code="logins" image="16x16/key_go.png" />
 			</td>
 			<td>
-				<shept-opt:chainRow chainName="workgroups" code="label.myWorkgroups" image="16x16/cog_go.png" />
+				<table:chainRow chainName="workgroups" code="label.myWorkgroups" image="16x16/cog_go.png" />
 			</td>
 			<td>
-				<shept-opt:chainRow chainName="ownedWorkgroups" code="label.ownedWorkgroups" image="16x16/cog_go.png" />
+				<table:chainRow chainName="ownedWorkgroups" code="label.ownedWorkgroups" image="16x16/cog_go.png" />
 			</td>
 			<td>
-				<shept-opt:chainRow chainName="usersInvited" code="label.usersInvited" image="16x16/group_go.png" />
+				<table:chainRow chainName="usersInvited" code="label.usersInvited" image="16x16/group_go.png" />
 			</td>
 			<td>
-				<shept-opt:chainRow chainName="userForm" code="user" image="16x16/user_go.png" />
+				<table:chainRow chainName="userForm" code="user" image="16x16/user_go.png" />
 			</td>					
 			<td>
-				<shept-opt:confirmDeleteRow />
+				<table:confirmDeleteRow />
 			</td>	
 		</tr>
 	  </jsp:attribute>
 
 	  <jsp:attribute name="tabSubmit" >
-	  	<shept-opt:submission />
+	  	<shept:submission />
 	  </jsp:attribute>
-	</shept-core:table>
+	</table:table>
 
 </jsp:root>

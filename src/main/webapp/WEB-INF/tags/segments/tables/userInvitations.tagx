@@ -4,9 +4,8 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:form="http://www.springframework.org/tags/form"
-	xmlns:shept-pager="http://www.shept.org/tags/shept-pager"
-	xmlns:shept-opt="http://www.shept.org/tags/shept-opt"
-	xmlns:shept-core="http://www.shept.org/tags/shept-core"
+	xmlns:shept="http://www.shept.org/tags/shept"
+	xmlns:table="http://www.shept.org/tags/table"
 	xmlns:app="urn:jsptagdir:/WEB-INF/tags/app"
 	version="2.0"
 >
@@ -16,39 +15,39 @@
 	</spring:bind>	
 
 
-	<shept-core:table > 
+	<table:table > 
 	  <jsp:attribute name="tabHeader" >
 		<tr class="sheptTableHeader" >
 			<th />
 			<th nowrap="nowrap" >
-				<shept-pager:sort sortCol="[0].name" code="name" />	
+				<table:sort sortCol="[0].name" code="name" />	
 			</th>
 			<th>
-				<shept-pager:sort sortCol="[0].firstname" code="firstname" />
+				<table:sort sortCol="[0].firstname" code="firstname" />
 			</th>
 			<th nowrap="nowrap">
-				<shept-pager:sort sortCol="[0].username" code="username" />
+				<table:sort sortCol="[0].username" code="username" />
 			</th>
 			<th nowrap="nowrap">
-				<shept-pager:sort sortCol="[0].email" code="email" />
+				<table:sort sortCol="[0].email" code="email" />
 			</th>
 			<th nowrap="nowrap">
-				<shept-pager:sort sortCol="[0].company" code="company" />			
+				<table:sort sortCol="[0].company" code="company" />			
 			</th>
 			<th nowrap="nowrap">
-				<shept-pager:sort sortCol="[0].age" code="age" />			
+				<table:sort sortCol="[0].age" code="age" />			
 			</th>
 			<th nowrap="nowrap">
-				<shept-pager:sort sortCol="[0].zip" code="zip" />			
+				<table:sort sortCol="[0].zip" code="zip" />			
 			</th>
 			<th nowrap="nowrap">
-				<shept-pager:sort sortCol="[0].city" code="city" />			
+				<table:sort sortCol="[0].city" code="city" />			
 			</th>
 			<th nowrap="nowrap">
-				<shept-pager:sort sortCol="[1].datetimeInvitation.time" code="since" />			
+				<table:sort sortCol="[1].datetimeInvitation.time" code="since" />			
 			</th>
 			<th nowrap="nowrap">
-				<shept-pager:sort sortCol="[1].datetimeResponse.time" title="?" />			
+				<table:sort sortCol="[1].datetimeResponse.time" title="?" />			
 			</th> 
 			<c:if test="${userSelectMode eq UserAdminSelectionMode.USERS_INVITATIONS}">
 				<th>&#160;</th>
@@ -138,7 +137,7 @@
 							
 			<td> ${userWgCount}
 				<c:if test="${userSelectMode eq UserAdminSelectionMode.USERS_HOSTED}">
-				  <shept-opt:chainRow chainName="workgroups4User" code="phrase.editWorkgroupMemberships" image="16x16/shield_go.png" />
+				  <table:chainRow chainName="workgroups4User" code="phrase.editWorkgroupMemberships" image="16x16/shield_go.png" />
 				</c:if>
 				<c:if test="${userSelectMode eq UserAdminSelectionMode.USERS_INVITATIONS}">
 					<spring:message var="txtLabel" code="phrase.editWorkgroupMemberships" />
@@ -182,6 +181,6 @@
 			</div>
 		</c:if>
 	  </jsp:attribute>
-	</shept-core:table>
+	</table:table>
 
 </jsp:root>

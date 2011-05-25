@@ -4,11 +4,11 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:form="http://www.springframework.org/tags/form"
-	xmlns:shept-core="http://www.shept.org/tags/shept-core"
+	xmlns:shept="http://www.shept.org/tags/shept"
 	version="2.0"
 >
 
-	<shept-core:includeJavaScript />
+	<shept:includeJavaScript />
 
 	<!--  Response in new windows -->
 	<script type="text/javascript">
@@ -23,7 +23,7 @@
 		<c:set var="loc" value="" />
 	</c:if>
 
-	<shept-core:form>
+	<shept:form>
 	
 	  <div style="background-color: #E3E6F1; padding: 15px;" >
 
@@ -145,6 +145,6 @@
   		</div>
   		
   	  </div>
-  	</shept-core:form>
+  	</shept:form>
   		
 </jsp:root>

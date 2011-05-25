@@ -4,28 +4,27 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:form="http://www.springframework.org/tags/form"
-	xmlns:shept-pager="http://www.shept.org/tags/shept-pager"
-	xmlns:shept-opt="http://www.shept.org/tags/shept-opt"
-	xmlns:shept-core="http://www.shept.org/tags/shept-core"
+	xmlns:shept="http://www.shept.org/tags/shept"
+	xmlns:table="http://www.shept.org/tags/table"
 	xmlns:app="urn:jsptagdir:/WEB-INF/tags/app"
 	version="2.0"
 >
 
-	<shept-core:table > 
+	<table:table > 
 	  <jsp:attribute name="tabHeader" >
 		<tr class="sheptTableHeader">
 			<th />
 			<th nowrap="nowrap">
-				<shept-pager:sort sortCol="workgroup.name" code="workgroup" />
+				<table:sort sortCol="workgroup.name" code="workgroup" />
 			</th>
 			<th nowrap="nowrap">
-				<shept-pager:sort sortCol="userMember.name" code="member" />
+				<table:sort sortCol="userMember.name" code="member" />
 			</th>
 			<th nowrap="nowrap">
-				<shept-pager:sort sortCol="userOwner.name" code="owner" />
+				<table:sort sortCol="userOwner.name" code="owner" />
 			</th>
 			<th nowrap="nowrap">
-				<shept-pager:sort sortCol="workgroup.datecreated" code="since" />
+				<table:sort sortCol="workgroup.datecreated" code="since" />
 			</th>
 			<th />
 			<th />
@@ -40,7 +39,7 @@
 	  	
 		<tr class="${rowClassDefault}">
 			<td>
-				<shept-opt:iconRow />
+				<table:iconRow />
 			</td>
 
 			<td>
@@ -48,7 +47,7 @@
 				
 				<c:choose>
 					<c:when test="${editOk}">
-					    <shept-opt:blurInput path="workgroup.name" />
+					    <table:blurInput path="workgroup.name" />
 					</c:when>
 					<c:otherwise>
 						<c:out value="${rowObject.workgroup.name}"></c:out>
@@ -72,7 +71,7 @@
 			<td>
 				<c:choose>
 					<c:when test="${editOk and workgroupOk}">
-						<shept-opt:chainRow chainName="rootIssues" code="issues" image="16x16/script_go.png" />
+						<table:chainRow chainName="rootIssues" code="issues" image="16x16/script_go.png" />
 					</c:when>
 					<c:otherwise>
 						<img src="${images}/16x16/blank.png" alt="" />
@@ -82,7 +81,7 @@
 			<td align="center" >
 				<c:choose>
 					<c:when test="${editOk	and workgroupOk}">
-						<shept-opt:chainRow chainName="users4Workgroup" code="phrase.editWorkgroupMemberships" image="16x16/shield_go.png" />
+						<table:chainRow chainName="users4Workgroup" code="phrase.editWorkgroupMemberships" image="16x16/shield_go.png" />
 					</c:when>
 					<c:otherwise>
 						<img src="${images}/16x16/blank.png" alt="" />
@@ -92,7 +91,7 @@
 			<td align="center">
 				<c:choose>
 					<c:when test="${editOk and workgroupOk}">
-						<shept-opt:confirmDeleteRow />
+						<table:confirmDeleteRow />
 					</c:when>
 					<c:otherwise>
 						<img src="${images}/16x16/blank.png" alt="" />
@@ -103,8 +102,8 @@
 	  </jsp:attribute>
 
 	  <jsp:attribute name="tabSubmit" >
-	  	<shept-opt:submission />
+	  	<shept:submission />
 	  </jsp:attribute>
-	</shept-core:table>
+	</table:table>
 
 </jsp:root>

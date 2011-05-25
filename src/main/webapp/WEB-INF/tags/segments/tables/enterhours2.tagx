@@ -4,11 +4,11 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:form="http://www.springframework.org/tags/form"
-	xmlns:shept-opt="http://www.shept.org/tags/shept-opt"
-	xmlns:shept-core="http://www.shept.org/tags/shept-core"
+	xmlns:shept="http://www.shept.org/tags/shept"
+	xmlns:table="http://www.shept.org/tags/table"
 	version="2.0"
 >
-	<shept-core:includeJavaScript />
+	<shept:includeJavaScript />
 
 	<link type="text/css" href="./includes/js/jQuery/timeEntry/jquery.timeentry.css" rel="stylesheet" />
 	<script type="text/javascript" src="./includes/js/jQuery/timeEntry/jquery.timeentry.js">
@@ -52,7 +52,7 @@
 		<c:set var="timeWidth" value="5" />
 	</c:if>
 	
-	<shept-core:table > 
+	<table:table > 
 	  <jsp:attribute name="tabHeader" >
 		<tr class="sheptTableHeader" >
 			<th />
@@ -88,7 +88,7 @@
 	  <jsp:attribute name="tabRow" >
 		<tr class="${rowClassDefault}">
 			<td>
-				<shept-opt:iconRow />
+				<table:iconRow />
 			</td>
  			<td>
  				<form:input path="timefrom" size="${timeWidth}" id="${rowPathId}_timefrom"
@@ -144,14 +144,14 @@
 				<form:input path="comment" cssStyle="width: 100%" cssErrorClass="sheptFieldError" readonly="${isDeleted}"/>
 			</td>
 			<td>
-				<shept-opt:confirmDeleteRow />
+				<table:confirmDeleteRow />
 			</td>	
 		</tr>
 	  </jsp:attribute>
 
 	  <jsp:attribute name="tabSubmit" >
-	  	<shept-opt:submission />
+	  	<shept:submission />
 	  </jsp:attribute>
-	</shept-core:table>
+	</table:table>
 
 </jsp:root>

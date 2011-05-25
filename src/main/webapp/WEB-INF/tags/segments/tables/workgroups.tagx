@@ -4,21 +4,20 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:form="http://www.springframework.org/tags/form"
-	xmlns:shept-pager="http://www.shept.org/tags/shept-pager"
-	xmlns:shept-opt="http://www.shept.org/tags/shept-opt"
-	xmlns:shept-core="http://www.shept.org/tags/shept-core"
+	xmlns:shept="http://www.shept.org/tags/shept"
+	xmlns:table="http://www.shept.org/tags/table"
 	version="2.0"
 >
 
-	<shept-core:table > 
+	<table:table > 
 	  <jsp:attribute name="tabHeader" >
 		<tr class="sheptTableHeader" >
 			<th>&#160;</th>
 			<th nowrap="nowrap">
-				<shept-pager:sort sortCol="name" code="workgroup" />	
+				<table:sort sortCol="name" code="workgroup" />	
 			</th>
 			<th nowrap="nowrap">
-				<shept-pager:sort sortCol="datecreated" code="since" />
+				<table:sort sortCol="datecreated" code="since" />
 			</th>
 			<th>&#160;</th>
 			<th>&#160;</th>
@@ -31,10 +30,10 @@
 	  <jsp:attribute name="tabRow" >
 		<tr class="${rowClassDefault}">
 			<td>
-				<shept-opt:iconRow />
+				<table:iconRow />
 			</td>
 			<td>
-				<shept-opt:blurInput path="name" />
+				<table:blurInput path="name" />
 			</td>
 			<td>
 				<spring:bind path="datecreated">
@@ -42,26 +41,26 @@
 				</spring:bind>
 			</td>
 			<td>
-				<shept-opt:chainRow chainName="users" code="user" image="16x16/group_go.png" />
+				<table:chainRow chainName="users" code="user" image="16x16/group_go.png" />
 			</td>
 			<td>
-				<shept-opt:chainRow chainName="owner" code="owner" image="16x16/user_go.png" />
+				<table:chainRow chainName="owner" code="owner" image="16x16/user_go.png" />
 			</td>
 			<td>
-				<shept-opt:chainRow chainName="rootIssues" code="issues" image="16x16/script_go.png" />
+				<table:chainRow chainName="rootIssues" code="issues" image="16x16/script_go.png" />
 			</td>
 			<td>
-				<shept-opt:chainRow chainName="users4Workgroup" code="phrase.editWorkgroupMemberships" image="16x16/shield_go.png" />
+				<table:chainRow chainName="users4Workgroup" code="phrase.editWorkgroupMemberships" image="16x16/shield_go.png" />
 			</td>
 			<td>
-				<shept-opt:confirmDeleteRow />
+				<table:confirmDeleteRow />
 			</td>
 		</tr>
 	  </jsp:attribute>
 
 	  <jsp:attribute name="tabSubmit" >
-	  	<shept-opt:submission />
+	  	<shept:submission />
 	  </jsp:attribute>
-	</shept-core:table>
+	</table:table>
 
 </jsp:root>

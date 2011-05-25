@@ -5,7 +5,7 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:form="http://www.springframework.org/tags/form"
-	xmlns:shept-core="http://www.shept.org/tags/shept-core"
+	xmlns:shept="http://www.shept.org/tags/shept"
 	xmlns:segments="urn:jsptagdir:/WEB-INF/tags/segments"
 	xmlns:app="urn:jsptagdir:/WEB-INF/tags/app"
 	version="2.0"
@@ -46,19 +46,19 @@
 			<form:form id="main" method="post" >
 				<div id="content">
 					<h1>${formTitle}</h1>
-					<shept-core:error />
-					<shept-core:formWrapper childIndex="0" >
+					<shept:error />
+					<shept:page childIndex="0" >
 						<jsp:attribute name="segment" >
 	  						<segments:segments />
  						</jsp:attribute>
- 					</shept-core:formWrapper>
+ 					</shept:page>
  				</div>
 	  		</form:form>
 
 			<app:footer />
 
 			<spring:message var="msg" code="Persist.confirmDeletion" />
-			<shept-core:confirmDialog message="${msg}" />
+			<shept:confirmDialog message="${msg}" />
 
 		</div>
 	</body>

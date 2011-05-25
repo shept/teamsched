@@ -4,9 +4,6 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:form="http://www.springframework.org/tags/form"
-	xmlns:pager="http://www.shept.org/tags/pager"
-	xmlns:app="urn:jsptagdir:/WEB-INF/tags/app"
-	xmlns:subForm="urn:jsptagdir:/WEB-INF/tags/components"
 	version="2.0"
 >
 
