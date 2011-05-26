@@ -6,6 +6,9 @@
 	<a href="?clearCache=true">
 		<span class="headline">TeamSched(ule)</span>
 	</a>
+	<a href="?debug=true" >
+		<img src="${images}/subForm/bug.png" title="${manifest}" alt="${manifest}" />
+ 	</a>
 </div>
 
 </html>

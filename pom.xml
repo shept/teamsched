@@ -4,7 +4,7 @@
   <groupId>org.shept</groupId>
   <artifactId>apps.teamsched</artifactId>
   <packaging>war</packaging>
-  <version>0.0.2-SNAPSHOT</version>
+  <version>1.1.0</version>
   <name>TeamSched</name>
   <url>http://teamsched.com</url>
 
@@ -37,7 +37,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<shept.version>1.0.3</shept.version>
+		<shept.version>1.0.4-SNAPSHOT</shept.version>
   	</properties>
 
 	<build>
@@ -50,6 +50,24 @@
 		
 		<finalName>teamsched-${project.version}</finalName>
     	
+		<plugins>
+			<!-- Innstruct maven to include group-artefact-version in manifest -->
+ 
+			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-war-plugin</artifactId>
+ 			    <inherited>true</inherited>
+			    <configuration>
+		        	<archive>                   
+        		    	<manifest>
+                			<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+	                		<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+			            </manifest>
+        			</archive>
+			    </configuration>
+			</plugin>
+		</plugins>
+
 	</build>
 	
 	<dependencies>
