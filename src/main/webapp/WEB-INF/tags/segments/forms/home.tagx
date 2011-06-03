@@ -14,6 +14,22 @@
 	<shept:form>
 
 	  <div>
+
+	  	<div>
+		  <security:authorize access="hasRole('ROLE_CONFIRM_TERMS')">
+		    <c:if test="${not subCommand.bterms}" >
+ 	  		  <form:label path="bterms" >
+			    <a class="navi" href="http:../docs/info/termsAndConditions" target="_blank" >
+				  <spring:message code="confirm_tac" />
+			    </a> 
+	  		  </form:label>
+	  		  <form:checkbox path="bterms" />
+ 			  <spring:message code="confirm"  var="txtLabel" />
+	  		  <input type="submit" name="${commandPath}.submitConfirmTerms" value="${txtLabel}" />
+		    </c:if>
+		  </security:authorize>
+		</div>
+
 		<a href="/">
 			<img alt="" src="${images}/teamsched-bg.png" />
 		</a>
@@ -25,18 +41,6 @@
 			</a> - Fotolia.com
 		</div>
 
-		<security:authorize ifAnyGranted="ROLE_CONFIRM_TERMS">
-		  <c:if test="${not subCommand.bterms}" >
- 	  		<form:label path="bterms" >
-			  <a class="navi" href="http:../docs/info/termsAndConditions" target="_blank" >
-				<spring:message code="confirm_tac" />
-			  </a> 
-	  		</form:label>
-	  		<form:checkbox path="bterms" />
- 			<spring:message code="confirm"  var="txtLabel" />
-	  		<input type="submit" name="${commandPath}.submitConfirmTerms" value="${txtLabel}" />
-		  </c:if>
-		</security:authorize>
  	  </div>
 
  	</shept:form>

@@ -9,10 +9,10 @@
 <form method="post" action="j_spring_security_check">
 	<div id="login" >
 
-	<security:authorize ifNotGranted="ROLE_ANONYMOUS" >
+	<security:authorize access="isAuthenticated()" >
 		<security:authentication property="principal.username" var="authenticatedUserName" />
 	</security:authorize>
-	
+		
 	<c:if test="${not empty authenticatedUserName}">
 		<spring:message var="text" code="loggedin" />
 		${text}&#160;<b>${authenticatedUserName}</b>
@@ -51,7 +51,7 @@
 			<spring:message code="registerDo" />
 		</a>
 			
-		<security:authorize ifAnyGranted="ROLE_ANONYMOUS,anonymous">
+		<security:authorize access="isAnonymous()" >
 			|&#160;
 			<a class="${servletPath eq '/password.shept' ? 'naviSel' : 'navi'}" 
 				href="password.shept">

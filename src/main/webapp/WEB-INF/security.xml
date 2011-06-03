@@ -19,20 +19,20 @@
 
    <!-- ======================== FILTER CHAIN ======================= -->
    
-	<sec:http access-denied-page="/home.shept" entry-point-ref="entryPoint" >
-		<sec:intercept-url pattern="/jcaptcha" access="ROLE_ANONYMOUS,ROLE_CONFIRM_TERMS,ROLE_USER,ROLE_ADMINISTRATOR" />
-		<sec:intercept-url pattern="/images/**" access="ROLE_ANONYMOUS,ROLE_CONFIRM_TERMS,ROLE_USER,ROLE_ADMINISTRATOR" />
-		<sec:intercept-url pattern="/includes/**" access="ROLE_ANONYMOUS,ROLE_CONFIRM_TERMS,ROLE_USER,ROLE_ADMINISTRATOR" />
-		<sec:intercept-url pattern="/velocity/**" access="ROLE_ANONYMOUS,ROLE_CONFIRM_TERMS,ROLE_USER,ROLE_ADMINISTRATOR" />
-		<sec:intercept-url pattern="/password*" access="ROLE_ANONYMOUS" />
-		<sec:intercept-url pattern="/login*" access="ROLE_ANONYMOUS,ROLE_USER,ROLE_ADMINISTRATOR" />
-		<sec:intercept-url pattern="/ident*" access="ROLE_ANONYMOUS,ROLE_CONFIRM_TERMS,ROLE_USER,ROLE_ADMINISTRATOR" />
-		<sec:intercept-url pattern="/imprint*" access="ROLE_ANONYMOUS,ROLE_CONFIRM_TERMS,ROLE_USER,ROLE_ADMINISTRATOR" />
-		<sec:intercept-url pattern="/registration*" access="ROLE_ANONYMOUS" />
-		<sec:intercept-url pattern="/home*" access="ROLE_ANONYMOUS,ROLE_CONFIRM_TERMS,ROLE_USER,ROLE_ADMINISTRATOR" />
-		<sec:intercept-url pattern="/cleanup*" access="ROLE_ADMINISTRATOR" />
-		<sec:intercept-url pattern="/admin**" access="ROLE_ADMINISTRATOR" />
-		<sec:intercept-url pattern="/**" access="ROLE_USER,ROLE_ADMINISTRATOR" />
+	<sec:http access-denied-page="/home.shept" entry-point-ref="entryPoint" use-expressions="true" >
+		<sec:intercept-url pattern="/jcaptcha" access="hasAnyRole('ROLE_ANONYMOUS','ROLE_CONFIRM_TERMS','ROLE_USER','ROLE_ADMINISTRATOR')" />
+		<sec:intercept-url pattern="/images/**" access="hasAnyRole('ROLE_ANONYMOUS','ROLE_CONFIRM_TERMS','ROLE_USER','ROLE_ADMINISTRATOR')" />
+		<sec:intercept-url pattern="/includes/**" access="hasAnyRole('ROLE_ANONYMOUS','ROLE_CONFIRM_TERMS','ROLE_USER','ROLE_ADMINISTRATOR')" />
+		<sec:intercept-url pattern="/velocity/**" access="hasAnyRole('ROLE_ANONYMOUS','ROLE_CONFIRM_TERMS','ROLE_USER','ROLE_ADMINISTRATOR')" />
+		<sec:intercept-url pattern="/password*" access="hasAnyRole('ROLE_ANONYMOUS')" />
+		<sec:intercept-url pattern="/login*" access="hasAnyRole('ROLE_ANONYMOUS','ROLE_USER','ROLE_ADMINISTRATOR')" />
+		<sec:intercept-url pattern="/ident*" access="hasAnyRole('ROLE_ANONYMOUS','ROLE_CONFIRM_TERMS','ROLE_USER','ROLE_ADMINISTRATOR')" />
+		<sec:intercept-url pattern="/imprint*" access="hasAnyRole('ROLE_ANONYMOUS','ROLE_CONFIRM_TERMS','ROLE_USER','ROLE_ADMINISTRATOR')" />
+		<sec:intercept-url pattern="/registration*" access="hasAnyRole('ROLE_ANONYMOUS')" />
+		<sec:intercept-url pattern="/home*" access="hasAnyRole('ROLE_ANONYMOUS','ROLE_CONFIRM_TERMS','ROLE_USER','ROLE_ADMINISTRATOR')" />
+		<sec:intercept-url pattern="/cleanup*" access="hasAnyRole('ROLE_ADMINISTRATOR')" />
+		<sec:intercept-url pattern="/admin**" access="hasAnyRole('ROLE_ADMINISTRATOR')" />
+		<sec:intercept-url pattern="/**" access="hasAnyRole('ROLE_USER','ROLE_ADMINISTRATOR')" />
 		
 		<sec:anonymous granted-authority="ROLE_ANONYMOUS"/>
 		

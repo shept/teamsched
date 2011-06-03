@@ -35,7 +35,7 @@
 		href="users.shept" onMouseover="showtext('')" onMouseout="hidetext()">
 		<spring:message code="user" />
 	</a>
-	<security:authorize ifAllGranted="ROLE_ADMINISTRATOR" >
+	<security:authorize access="hasRole('ROLE_ADMINISTRATOR')" >
 		<p class="menuHeaderBox">Admin</p>
 		<a class="${servletPath eq '/adminLogins.shept' or servletPath eq '/usersAll.shept' ? 'naviSel' : 'navi'}"
 			href="adminLogins.shept" onMouseover="showtext('')" onMouseout="hidetext()">
