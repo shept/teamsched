@@ -19,7 +19,7 @@
 	</a>
 	<p class="menuBlankBox">&#160;</p>
 	<a class="${servletPath eq '/enterhours.shept' ? 'naviSel' : 'navi'}" 
-		href="http:enterhours.shept" onMouseover="showtext('')" onMouseout="hidetext()">
+		href="enterhours.shept" onMouseover="showtext('')" onMouseout="hidetext()">
 		<spring:message code="title.enterHours" />
 	</a>
 	<a class="${servletPath eq '/reports.shept' ? 'naviSel' : 'navi'}" 
