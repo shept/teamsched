@@ -6,11 +6,11 @@
 >
 
 <div id="footer">
-	<a class="navi" href="http:../docs/info/imprint">
+	<a class="navi" href="https:../docs/info/imprint">
 		<spring:message code="imprint" />
 	</a> 
 	&#160;&#160;
-	<a class="navi" href="http:../docs/info/termsAndConditions">
+	<a class="navi" href="https:../docs/info/termsAndConditions">
 		<spring:message code="terms" />
 	</a> 
 </div>

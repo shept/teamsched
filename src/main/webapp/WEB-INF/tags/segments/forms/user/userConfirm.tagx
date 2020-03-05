@@ -35,7 +35,7 @@
 			  <spring:message code="password" />
 		 	</label>
 			<div>
-				<a href="?${commandPath}.submitPropertySet_showPassword::true=dummy#a${childIndex}" >
+				<a href="?${commandPathUrl}.submitPropertySet_showPassword::true=dummy#a${childIndex}" >
 					<spring:message code="change" />
 				</a>
 			</div>
@@ -72,7 +72,7 @@
 				<spring:message code="email" />
 			</label>
 			<div>
-				<a href="?${commandPath}.submitPropertySet_showEmail::true=dummy#a${childIndex}" >
+				<a href="?${commandPathUrl}.submitPropertySet_showEmail::true=dummy#a${childIndex}" >
 					<spring:message code="change" />
 				</a>
 				&#160;<c:out value="${subCommand.user.email}" />

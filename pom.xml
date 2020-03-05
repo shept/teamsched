@@ -4,7 +4,7 @@
   <groupId>org.shept</groupId>
   <artifactId>apps.teamsched</artifactId>
   <packaging>war</packaging>
-  <version>1.1.1</version>
+  <version>1.1.2</version>
   <name>TeamSched</name>
   <url>http://teamsched.com</url>
 
@@ -37,7 +37,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<org.shept.version>1.0.4-SNAPSHOT</org.shept.version>
+		<org.shept.version>1.0.5</org.shept.version>
     	<org.springframework.version>3.0.5.RELEASE</org.springframework.version>
   	</properties>
 	
@@ -111,12 +111,6 @@
 		  <groupId>javax.servlet</groupId>
 		  <artifactId>jstl</artifactId>
 		  <version>1.2</version>
-		</dependency>
-
-		<dependency>
-    		<groupId>taglibs</groupId>
-		    <artifactId>standard</artifactId>
-		    <version>1.1.2</version>
 		</dependency>
 		<!-- End of Tomcat (6) 'completion' -->
 

@@ -49,9 +49,10 @@
 			accesskey="s"
 		/>&#160;&#160;
 		<spring:message var="txtLabel" code="refresh" />
-		<a href="?${commandPath}.submitCancelUser=true#a${childIndex}" >
+		<a href="?${commandPathUrl}.submitCancelUser=true#a${childIndex}" >
 			${txtLabel}
 		</a>&#160;&#160;
+
 	</div>
 	</shept:form>
 		

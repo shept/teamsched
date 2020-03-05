@@ -57,7 +57,7 @@
 
 			<app:footer />
 
-			<spring:message var="msg" code="Persist.confirmDeletion" />
+			<spring:message var="msg" code="persist.confirmDeletion" />
 			<shept:confirmDialog message="${msg}" />
 
 		</div>
