@@ -38,7 +38,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<org.shept.version>1.0.5</org.shept.version>
-    	<org.springframework.version>3.0.5.RELEASE</org.springframework.version>
+    	<org.springframework.version>5.2.10.RELEASE</org.springframework.version>
   	</properties>
 	
 	<build>
